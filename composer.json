@@ -1,4 +1,5 @@
 {
+  "name": "creuna/objective-wp-admin",
   "autoload": {
     "psr-4": {
       "Creuna\\ObjectiveWpAdmin\\": "src/"
