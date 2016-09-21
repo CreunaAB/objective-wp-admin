@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Creuna\\ObjectiveWpAdmin\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^3.1"
+  }
+}

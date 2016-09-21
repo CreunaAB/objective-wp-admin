@@ -1,0 +1,4 @@
+suites:
+  all:
+    namespace: Creuna\ObjectiveWpAdmin
+    psr4_prefix: Creuna\ObjectiveWpAdmin
