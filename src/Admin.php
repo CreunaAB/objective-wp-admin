@@ -25,10 +25,18 @@ class Admin
     /**
      * Registers a post type.
      *
-     * @param PostType $postType
+     *     $admin->type('things', function (PostTypeBuilder $builder) {
+     *         return $builder
+     *             ->labels([ 'featured_image' => 'Featured Image of the Thing' ]);
+     *     });
+     *
+     * @param string   $name  The name of the post type (think database table).
+     * @param callable $build Receives a PostTypeBuilder which builds the PostType.
      */
-    public function type(PostType $postType)
+    public function type($name, callable $build)
     {
+        $builder = $build(PostTypeBuilder::make());
+        $postType = $builder->get();
         $this->hook(new RegisterPostTypeAction($postType));
     }
 
