@@ -35,7 +35,7 @@ class Admin
      */
     public function type($name, callable $build)
     {
-        $builder = $build(PostTypeBuilder::make());
+        $builder = $build(PostTypeBuilder::make($name));
         $postType = $builder->get();
         $this->hook(new RegisterPostTypeAction($postType));
     }
