@@ -7,18 +7,20 @@ interface AdminAdapter
     /**
      * Adds an action hook.
      *
-     * @param string   $hook   The id of the hook.
-     * @param callable $action The action to be performed.
+     * @param string   $hook     The id of the hook.
+     * @param callable $action   The action to be performed.
+     * @param number   $priority The priority of the hook.
      */
-    public function action($hook, callable $action);
+    public function action($hook, callable $action, $priority);
 
     /**
      * Adds a filter hook.
      *
-     * @param string   $hook   The id of the hook.
-     * @param callable $filter The filter.
+     * @param string   $hook     The id of the hook.
+     * @param callable $filter   The filter.
+     * @param number   $priority The priority of the hook.
      */
-    public function filter($hook, callable $filter);
+    public function filter($hook, callable $filter, $priority);
 
     /**
      * Registers a new post type.
