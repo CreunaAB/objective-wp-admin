@@ -4,8 +4,8 @@ namespace Creuna\ObjectiveWpAdmin\PostTypes;
 
 class PostType
 {
-    protected $name;
-    protected $options;
+    public $name;
+    public $options;
 
     public function __construct($name, array $options = [])
     {
