@@ -5,6 +5,7 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
+use Creuna\ObjectiveWpAdmin\PostTypes\RegisterPostTypeAction;
 use Creuna\ObjectiveWpAdmin\WordPressAdminAdapter;
 
 class Admin
@@ -19,6 +20,16 @@ class Admin
     public static function make()
     {
         return new static(new WordPressAdminAdapter);
+    }
+
+    /**
+     * Registers a post type.
+     *
+     * @param PostType $postType
+     */
+    public function type(PostType $postType)
+    {
+        $this->hook(new RegisterPostTypeAction($postType));
     }
 
     /**
