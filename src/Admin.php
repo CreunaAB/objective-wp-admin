@@ -5,6 +5,7 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
+use Creuna\ObjectiveWpAdmin\WordPressAdminAdapter;
 
 class Admin
 {
@@ -13,6 +14,11 @@ class Admin
     public function __construct(AdminAdapter $adapter)
     {
         $this->adapter = $adapter;
+    }
+
+    public static function make()
+    {
+        return new static(new WordPressAdminAdapter);
     }
 
     /**

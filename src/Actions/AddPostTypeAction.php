@@ -23,6 +23,6 @@ class AddPostTypeAction implements Action
 
     public function fire(AdminAdapter $admin)
     {
-        $admin->registerPostType($this->name, []);
+        $admin->registerPostType($this->name, $this->fields);
     }
 }
