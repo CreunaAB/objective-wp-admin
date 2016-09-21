@@ -2,9 +2,10 @@
 
 namespace Creuna\ObjectiveWpAdmin;
 
-use Creuna\ObjectiveWpAdmin\Hooks\Hook;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
+use Creuna\ObjectiveWpAdmin\Hooks\Hook;
+use Creuna\ObjectiveWpAdmin\PostTypes\PostTypeBuilder;
 use Creuna\ObjectiveWpAdmin\PostTypes\RegisterPostTypeAction;
 use Creuna\ObjectiveWpAdmin\WordPressAdminAdapter;
 
