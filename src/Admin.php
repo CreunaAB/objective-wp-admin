@@ -5,92 +5,63 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
-use Creuna\ObjectiveWpAdmin\PostTypes\PostTypeBuilder;
-use Creuna\ObjectiveWpAdmin\PostTypes\RegisterPostTypeAction;
-use Creuna\ObjectiveWpAdmin\WordPressAdminAdapter;
+use Exception;
 
 class Admin
 {
     protected $adapter;
+    protected $hooks = [];
 
     public function __construct(AdminAdapter $adapter)
     {
         $this->adapter = $adapter;
     }
 
-    public static function make()
+    /**
+     * Creates a new instance, preemtively adding the hooks
+     * to the system.
+     *
+     * @return Admin
+     */
+    public static function reset()
     {
-        return new static(new WordPressAdminAdapter);
+        $admin = new static(new WordPressAdminAdapter);
+
+        // Add a listener to the first hook that we can access,
+        // and add our own hooks at that point.
+        $this->adapter->action('plugins_loaded', function () use ($admin) {
+            $admin->execute();
+        }, 1000);
+
+        $this->hook(new Reset/ResetToolbarAction);
+        $this->hook(new Reset/ResetDashboardAction);
+        $this->hook(new Reset/ResetMenuAction);
+
+        return $admin;
     }
 
     /**
-     * Registers a post type.
+     * Hooks into the system using the provided adapter.
      *
-     *     $admin->type('things', function (PostTypeBuilder $builder) {
-     *         return $builder
-     *             ->labels([ 'featured_image' => 'Featured Image of the Thing' ]);
-     *     });
-     *
-     * @param string   $name  The name of the post type (think database table).
-     * @param callable $build Receives a PostTypeBuilder which builds the PostType.
+     * If the instance was not created using ::reset(),
+     * this method must be called manually to forward
+     * the calls to the system. Basically for testing only.
      */
-    public function type($name, callable $build)
+    public function execute()
     {
-        $builder = $build(PostTypeBuilder::make($name));
-        $postType = $builder->get();
-        $this->hook(new RegisterPostTypeAction($postType));
+        foreach ($this->hooks as $hook) {
+            if ($hook instanceof Filter) {
+                $this->adapter->filter($hook->event(), [$hook, 'call'], 1000);
+            } elseif ($hook instanceof Action) {
+                $this->adapter->action($hook->event(), [$hook, 'call'], 1000);
+            } else {
+                throw new Exception(get_class($hook).' is neither an action nor a filter.');
+            }
+        }
     }
 
-    /**
-     * Registers a hook.
-     *
-     * @param Hook $hook
-     */
     public function hook(Hook $hook)
     {
-        $priority = $this->priority($hook);
-
-        if ($hook instanceof Action) {
-            return $this->adapter->action(
-                $hook->hook(),
-                $this->callback($hook, 'fire'),
-                $priority
-            );
-        }
-
-        if ($hook instanceof Filter) {
-            return $this->adapter->filter(
-                $hook->hook(),
-                $this->callback($hook, 'filter'),
-                $priority
-            );
-        }
-
-        throw new \Exception(get_class($hook).' cannot be used as a Hook.');
-    }
-
-    private function callback(Hook $hook, $method)
-    {
-        if (!method_exists($hook, $method)) {
-            throw new \Exception(get_class($hook)." does not provide the required $method method.");
-        }
-
-        $callable = [$hook, $method];
-
-        if ($hook instanceof Filter) {
-            return $callable;
-        }
-
-        return function (...$args) use ($callable) {
-            return $callable($this->adapter, ...$args);
-        };
-    }
-
-    private function priority(Hook $hook)
-    {
-        if (property_exists($hook, 'priority')) {
-            return $hook->priority;
-        }
-        return Hook::LOW_PRIORITY;
+        $this->hooks[] = $hook;
     }
 }

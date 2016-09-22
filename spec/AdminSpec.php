@@ -6,7 +6,6 @@ use Creuna\ObjectiveWpAdmin\Admin;
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
-use Creuna\ObjectiveWpAdmin\Hooks\Hook;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -22,58 +21,74 @@ class AdminSpec extends ObjectBehavior
         $this->shouldHaveType(Admin::class);
     }
 
-    function it_enables_actions(AdminAdapter $adapter, TestAction $action)
+    function it_hooks_into_the_underlying_system(AdminAdapter $adapter)
     {
-        $action->hook()->willReturn('test_action');
-        $action->fire(Argument::type(AdminAdapter::class))->willReturn(true);
+        $this->hook(new TestAction);
 
-        $this->hook($action);
+        $this->execute();
 
         $adapter->action(
-            'test_action',
-            $this->argumentIsCallbackGetsCalledWith(),
-            10
+            'init', Argument::that(function ($callback) {
+                return $callback(new NullAdapter, []) == 'result of calling TestAction::call';
+            }), 1000
         )->shouldHaveBeenCalled();
     }
 
-    function it_enables_filters(AdminAdapter $adapter, TestFilter $filter)
+    function it_works_with_filters_too(AdminAdapter $adapter)
     {
-        $filter->hook()->willReturn('test_filter');
-        $filter->filter()->willReturn(true);
+        $this->hook(new TestFilter);
 
-        $this->hook($filter);
+        $this->execute();
 
         $adapter->filter(
-            'test_filter',
-            $this->argumentIsCallbackGetsCalledWith(),
-            10
+            'filter_name', Argument::that(function ($callback) {
+                return $callback(new NullAdapter, []) == 'result of calling TestFilter::call';
+            }), 1000
         )->shouldHaveBeenCalled();
     }
+}
 
-    function it_sends_forth_the_priority_of_a_hook(AdminAdapter $adapter, TestAction $action)
+class NullAdapter implements AdminAdapter
+{
+    public function action($hook, callable $callback, $priority)
     {
-        $action->priority = 100;
-        $action->hook()->willReturn('test_action');
-        $this->hook($action);
-        $adapter->action('test_action', Argument::type('callable'), 100)->shouldHaveBeenCalled();
     }
 
-    private function argumentIsCallbackGetsCalledWith(...$args)
+    public function filter($hook, callable $callback, $priority)
     {
-        return Argument::that(function (callable $callback) use ($args) {
-            return $callback(...$args);
-        });
+    }
+
+    public function removeMenuPage($id)
+    {
+    }
+
+    public function removeSubMenuPage($id, $subId)
+    {
     }
 }
 
 class TestAction implements Action
 {
-    public function hook() {}
-    public function fire() {}
+    public function event()
+    {
+        return 'init';
+    }
+
+    public function call(AdminAdapter $adapter, array $args)
+    {
+        return 'result of calling TestAction::call';
+    }
 }
 
 class TestFilter implements Filter
 {
-    public function hook() {}
-    public function filter() {}
+    public function event()
+    {
+        return 'filter_name';
+    }
+
+    public function call(AdminAdapter $adapter, array $args)
+    {
+        return 'result of calling TestFilter::call';
+    }
 }

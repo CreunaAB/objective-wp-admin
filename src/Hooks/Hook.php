@@ -2,23 +2,23 @@
 
 namespace Creuna\ObjectiveWpAdmin\Hooks;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+
 interface Hook
 {
-    const VERY_HIGH_PRIORITY = 500;
-    const HIGH_PRIORITY = 200;
-    const MEDIUM_PRIORITY = 100;
-    const LOW_PRIORITY = 10;
-
     /**
-     * The id of the hook that this action wishes
-     * to be attached to.
+     * The name of the event to hook into.
      *
      * @return string
      */
-    public function hook();
+    public function event();
 
     /**
-     * The hook can provide a priority in the form of an integer.
+     * The callback, which will be called when
+     * the event fires.
+     *
+     * @param AdminAdapter $adapter Access to the system.
+     * @param array        $args    The arguments sent by the system to the hook.
      */
-    /* public $priority = self::LOW_PRIORITY; */
+    public function call(AdminAdapter $admin, array $args);
 }
