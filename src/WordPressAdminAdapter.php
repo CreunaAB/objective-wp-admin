@@ -36,8 +36,8 @@ class WordPressAdminAdapter implements AdminAdapter
         register_post_type($name, $args);
     }
 
-    public function getPostMeta($id, $key)
+    public function getPostMeta($id, $key, $single)
     {
-        return get_post_meta($id, $key);
+        return get_post_meta($id, $key, $single);
     }
 }

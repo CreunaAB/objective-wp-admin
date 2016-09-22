@@ -84,7 +84,7 @@ class AdminSpec extends ObjectBehavior
             )->shouldHaveBeenCalled();
         }), 1000);
 
-        $adapter->getPostMeta(1, 'field_name')
+        $adapter->getPostMeta(1, 'field_name', true)
             ->shouldBeCalled()
             ->willReturn('xyz');
 

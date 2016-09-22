@@ -28,7 +28,7 @@ class PostTypeEditPageAction implements Action
         $this->type->describe($schema);
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view();
-            return $view->render($adapter->getPostMeta($post->ID, $field->name()));
+            return $view->render($adapter->getPostMeta($post->ID, $field->name(), true));
         }, $schema->fields());
         echo implode('', $widgets);
     }

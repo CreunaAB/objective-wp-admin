@@ -55,10 +55,11 @@ interface AdminAdapter
     /**
      * Gets the meta value of a post for a specific meta key.
      *
-     * @param int    $id  The post id.
-     * @param string $key The meta key.
+     * @param int    $id     The post id.
+     * @param string $key    The meta key.
+     * @param bool   $single Whether or not to return a single value.
      *
      * @return mixed
      */
-    public function getPostMeta($id, $key);
+    public function getPostMeta($id, $key, $single);
 }
