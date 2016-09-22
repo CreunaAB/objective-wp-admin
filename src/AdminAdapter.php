@@ -63,7 +63,21 @@ interface AdminAdapter
      */
     public function getPostMeta($id, $key, $single);
 
-    public function getPost($argument1);
+    /**
+     * Gets the post for a given id.
+     *
+     * @param int $id The post id.
+     *
+     * @return WP_Post
+     */
+    public function getPost($id);
 
-    public function setPostMeta($argument1, $argument2, $argument3);
+    /**
+     * Sets or updates the value for a specific meta key on a post.
+     *
+     * @param int    $id    The post id.
+     * @param string $key   The meta key.
+     * @param string $value The new value.
+     */
+    public function setPostMeta($id, $key, $value);
 }

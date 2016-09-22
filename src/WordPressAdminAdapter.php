@@ -8,6 +8,8 @@ use remove_menu_page;
 use remove_submenu_page;
 use register_post_type;
 use get_post_meta;
+use get_post;
+use update_post_meta;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
@@ -39,5 +41,15 @@ class WordPressAdminAdapter implements AdminAdapter
     public function getPostMeta($id, $key, $single)
     {
         return get_post_meta($id, $key, $single);
+    }
+
+    public function getPost($id)
+    {
+        return get_post($id);
+    }
+
+    public function setPostMeta($id, $key, $value)
+    {
+        update_post_meta($id, $key, $value);
     }
 }
