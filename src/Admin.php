@@ -38,9 +38,9 @@ class Admin
             $admin->execute();
         }, 1000);
 
-        $this->hook(new Reset/ResetToolbarAction);
-        $this->hook(new Reset/ResetDashboardAction);
-        $this->hook(new Reset/ResetMenuAction);
+        $this->hook(new Reset\ResetToolbarAction);
+        $this->hook(new Reset\ResetDashboardAction);
+        $this->hook(new Reset\ResetMenuAction);
     }
 
     /**
