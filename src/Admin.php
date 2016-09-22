@@ -50,10 +50,14 @@ class Admin
     public function execute()
     {
         foreach ($this->hooks as $hook) {
+            $callback = function (...$args) use ($hook) {
+                return $hook->call($this->adapter, $args);
+            };
+
             if ($hook instanceof Filter) {
-                $this->adapter->filter($hook->event(), [$hook, 'call'], 1000);
+                $this->adapter->filter($hook->event(), $callback, 1000);
             } elseif ($hook instanceof Action) {
-                $this->adapter->action($hook->event(), [$hook, 'call'], 1000);
+                $this->adapter->action($hook->event(), $callback, 1000);
             } else {
                 throw new Exception(get_class($hook).' is neither an action nor a filter.');
             }

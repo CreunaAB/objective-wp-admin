@@ -29,7 +29,7 @@ class AdminSpec extends ObjectBehavior
 
         $adapter->action(
             'init', Argument::that(function ($callback) {
-                return $callback(new NullAdapter, []) == 'result of calling TestAction::call';
+                return $callback() == 'result of calling TestAction::call';
             }), 1000
         )->shouldHaveBeenCalled();
     }
@@ -42,28 +42,9 @@ class AdminSpec extends ObjectBehavior
 
         $adapter->filter(
             'filter_name', Argument::that(function ($callback) {
-                return $callback(new NullAdapter, []) == 'result of calling TestFilter::call';
+                return $callback() == 'result of calling TestFilter::call';
             }), 1000
         )->shouldHaveBeenCalled();
-    }
-}
-
-class NullAdapter implements AdminAdapter
-{
-    public function action($hook, callable $callback, $priority)
-    {
-    }
-
-    public function filter($hook, callable $callback, $priority)
-    {
-    }
-
-    public function removeMenuPage($id)
-    {
-    }
-
-    public function removeSubMenuPage($id, $subId)
-    {
     }
 }
 
