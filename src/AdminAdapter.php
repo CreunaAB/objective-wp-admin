@@ -43,4 +43,20 @@ interface AdminAdapter
      *                      PHP file that the sub menu item points to.
      */
     public function removeSubMenuPage($id, $subId);
+
+    /**
+     * Registers a post type.
+     *
+     * @param string $name The name of the post type.
+     * @param array  $args The configuration of the type.
+     */
+    public function registerPostType($name, array $args);
+
+    /**
+     * Gets the meta value of a post for a specific meta key.
+     *
+     * @param int    $id  The post id.
+     * @param string $key The meta key.
+     */
+    public function getPostMeta($id, $key);
 }

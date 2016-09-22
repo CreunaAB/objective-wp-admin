@@ -71,4 +71,16 @@ class Admin
     {
         $this->hooks[] = $hook;
     }
+
+    /**
+     * Registers a post type.
+     *
+     * @param string $type The full name of the PostType class.
+     */
+    public function registerType($type)
+    {
+        $postType = new $type;
+        $this->hook(new Persistance\PostTypeRegisterAction($postType));
+        $this->hook(new Persistance\PostTypeEditPageAction($postType));
+    }
 }

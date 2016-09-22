@@ -6,8 +6,11 @@ use Creuna\ObjectiveWpAdmin\Admin;
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
+use Creuna\ObjectiveWpAdmin\Persistance\PostType;
+use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use StdClass;
 
 class AdminSpec extends ObjectBehavior
 {
@@ -46,6 +49,61 @@ class AdminSpec extends ObjectBehavior
             }), 1000
         )->shouldHaveBeenCalled();
     }
+
+    function it_can_add_post_types(AdminAdapter $adapter)
+    {
+        $this->registerType(Test::class);
+
+        $this->execute();
+
+        $adapter->action('init', Argument::that(function ($callback) use ($adapter) {
+            $callback();
+
+            $adapter->registerPostType(
+                strtolower(Test::class),
+                [
+                    'labels' => [
+                        'name' => 'Tests',
+                        'singular_name' => 'Test',
+                    ],
+                    'public' => true,
+                    'supports' => [
+                        'title' => false,
+                        'editor' => false,
+                        'author' => false,
+                        'thumbnail' => false,
+                        'excerpt' => false,
+                        'trackbacks' => false,
+                        'custom-fields' => false,
+                        'comments' => false,
+                        'revisions' => false,
+                        'page-attributes' => false,
+                        'post-formats' => false,
+                    ],
+                ]
+            )->shouldHaveBeenCalled();
+        }), 1000);
+
+        $adapter->getPostMeta(1, 'field_name')
+            ->shouldBeCalled()
+            ->willReturn('xyz');
+
+        $adapter->action(
+            'edit_form_after_editor',
+            Argument::that(function ($callback) {
+                ob_start();
+                $post = new StdClass;
+                $post->ID = 1;
+                $callback($post);
+                $markup = ob_get_clean();
+
+                return trim($markup) === trim("
+                    <input name='field_name' value='xyz'>
+                ");
+            }),
+            1000
+        )->shouldHaveBeenCalled();
+    }
 }
 
 class TestAction implements Action
@@ -71,5 +129,13 @@ class TestFilter implements Filter
     public function call(AdminAdapter $adapter, array $args)
     {
         return 'result of calling TestFilter::call';
+    }
+}
+
+class Test implements PostType
+{
+    public function describe(Schema $schema)
+    {
+        $schema->string('field_name');
     }
 }
