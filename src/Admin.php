@@ -34,9 +34,9 @@ class Admin
     {
         // Add a listener to the first hook that we can access,
         // and add our own hooks at that point.
-        $this->adapter->action('plugins_loaded', function () {
+        $this->adapter->action('admin_init', function () {
             $this->execute();
-        }, 1000);
+        }, 1);
 
         $this->hook(new Reset\ResetToolbarAction);
         $this->hook(new Reset\ResetDashboardAction);
