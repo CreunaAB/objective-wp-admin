@@ -57,6 +57,8 @@ interface AdminAdapter
      *
      * @param int    $id  The post id.
      * @param string $key The meta key.
+     *
+     * @return mixed
      */
     public function getPostMeta($id, $key);
 }

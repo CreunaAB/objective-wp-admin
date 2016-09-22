@@ -6,6 +6,8 @@ use add_action;
 use add_filter;
 use remove_menu_page;
 use remove_submenu_page;
+use register_post_type;
+use get_post_meta;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
@@ -27,5 +29,15 @@ class WordPressAdminAdapter implements AdminAdapter
     public function removeSubMenuPage($id, $subId)
     {
         remove_submenu_page($id, $subId);
+    }
+
+    public function registerPostType($name, array $args)
+    {
+        register_post_type($name, $args);
+    }
+
+    public function getPostMeta($id, $key)
+    {
+        return get_post_meta($id, $key);
     }
 }
