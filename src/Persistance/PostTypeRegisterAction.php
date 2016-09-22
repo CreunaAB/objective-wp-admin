@@ -26,7 +26,7 @@ class PostTypeRegisterAction implements Action
         $singular = end($segments);
 
         $adapter->registerPostType(
-            strtolower($type),
+            strtolower(implode('_', $segments)),
             [
                 'labels' => [
                     'name' => "{$singular}s",

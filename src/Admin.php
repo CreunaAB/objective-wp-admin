@@ -34,7 +34,7 @@ class Admin
     {
         // Add a listener to the first hook that we can access,
         // and add our own hooks at that point.
-        $this->adapter->action('admin_init', function () {
+        $this->adapter->action('init', function () {
             $this->execute();
         }, 1);
 
