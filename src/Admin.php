@@ -26,7 +26,12 @@ class Admin
     public static function reset()
     {
         $admin = new static(new WordPressAdminAdapter);
+        $admin->prepare();
+        return $admin;
+    }
 
+    private function prepare()
+    {
         // Add a listener to the first hook that we can access,
         // and add our own hooks at that point.
         $this->adapter->action('plugins_loaded', function () use ($admin) {
@@ -36,8 +41,6 @@ class Admin
         $this->hook(new Reset/ResetToolbarAction);
         $this->hook(new Reset/ResetDashboardAction);
         $this->hook(new Reset/ResetMenuAction);
-
-        return $admin;
     }
 
     /**
