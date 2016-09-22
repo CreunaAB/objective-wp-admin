@@ -103,6 +103,22 @@ class AdminSpec extends ObjectBehavior
             }),
             1000
         )->shouldHaveBeenCalled();
+
+        $adapter->action(
+            'save_post',
+            Argument::that(function ($callback) use ($adapter) {
+                $_POST['field_name'] = 'value';
+                $post = new StdClass;
+                $post->ID = 1;
+                $post->post_type = 'spec_creuna_objectivewpadmin_test';
+                $adapter->getPost(1)->shouldBeCalled()->willReturn($post);
+                $adapter->setPostMeta(1, 'field_name', 'value')->shouldBeCalled();
+
+                $callback(1);
+                return true;
+            }),
+            1000
+        )->shouldHaveBeenCalled();
     }
 }
 

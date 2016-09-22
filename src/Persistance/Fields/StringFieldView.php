@@ -20,9 +20,4 @@ class StringFieldView implements FieldView
             <input name='{$this->field->name()}' value='$value'>
         ";
     }
-
-    public function value()
-    {
-
-    }
 }

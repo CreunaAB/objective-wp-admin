@@ -62,4 +62,8 @@ interface AdminAdapter
      * @return mixed
      */
     public function getPostMeta($id, $key, $single);
+
+    public function getPost($argument1);
+
+    public function setPostMeta($argument1, $argument2, $argument3);
 }

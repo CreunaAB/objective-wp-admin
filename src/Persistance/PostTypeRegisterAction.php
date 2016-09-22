@@ -9,7 +9,7 @@ class PostTypeRegisterAction implements Action
 {
     protected $type;
 
-    public function __construct($type)
+    public function __construct(PostType $type)
     {
         $this->type = $type;
     }

@@ -82,5 +82,6 @@ class Admin
         $postType = new $type;
         $this->hook(new Persistance\PostTypeRegisterAction($postType));
         $this->hook(new Persistance\PostTypeEditPageAction($postType));
+        $this->hook(new Persistance\PostTypeSaveAction($postType));
     }
 }

@@ -10,11 +10,4 @@ interface FieldView
      * @return string
      */
     public function render($value);
-
-    /**
-     * Gets the value after the form has been posted.
-     *
-     * @return mixed
-     */
-    public function value();
 }
