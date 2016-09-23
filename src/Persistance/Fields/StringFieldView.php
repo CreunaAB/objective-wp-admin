@@ -19,12 +19,12 @@ class StringFieldView implements FieldView
         return "
             <tr>
                 <th scope='row'>
-                    <label for='{$this->field->name()}'>
+                    <label for='field_{$this->field->name()}'>
                         {$this->field->title()}
                     </label>
                 </th>
                 <td>
-                    <input id='{$this->field->name()}' name='{$this->field->name()}' value='$value'>
+                    <input class='regular-text' id='field_{$this->field->name()}' name='{$this->field->name()}' value='$value'>
                 </td>
             </tr>
         ";

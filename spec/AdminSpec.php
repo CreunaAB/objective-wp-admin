@@ -99,7 +99,7 @@ class AdminSpec extends ObjectBehavior
                 $markup = ob_get_clean();
 
                 return strpos($markup,
-                    "<input id='field_name' name='field_name' value='xyz'>"
+                    "name='field_name' value='xyz'"
                 ) !== false;
             }),
             1000
