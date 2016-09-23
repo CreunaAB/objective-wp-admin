@@ -3,17 +3,17 @@
 ## Abstract
 Let's face it; there are problems with the WordPress architecture. Yet, it's not uncommon
 that clients specifically ask for WordPress as their content management GUI. Most likely
-they've used it before, or they have access to learning materials that is more
-substantial for WP than for other systems.
+they've used it before, or they have access to a more substantial amount of learning
+materials for WP than for other systems.
 
 The PHP community at large have changed a lot over the last few years, and the common
-convention nowadays it a much more Object Oriented style than the procedural style
+convention nowadays is a much more Object Oriented style than the procedural style
 that WordPress is written in.
 
 At Creuna we've started experimenting with using WordPress not as it was intended,
 but rather as a dependency that simply acts as a data source and admin UI.
 
-Abstracting away the WordPress theme as easy enough, and interacting with WordPress as
+Abstracting away the WordPress theme is easy enough, and interacting with WordPress as
 a data source for posts can easily be done. But you're still going to have to interact
 with the WP architecture to customize the Admin UI.
 
@@ -50,6 +50,9 @@ create a file that will be run on every request to the Admin pages.
 
 ```php
 <?php // wordpress/wp-content/themes/your-theme/functions.php
+
+// Autoload Composer dependencies
+require_once(__DIR__.'/../../../../vendor/autoload.php');
 
 // Get out of the clutches of WordPress
 require_once(__DIR__.'/../../../../app/Admin/admin.php');
