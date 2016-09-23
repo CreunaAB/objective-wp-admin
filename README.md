@@ -2,7 +2,7 @@
 
 ## Abstract
 Let's face it; there are problems with the WordPress architecture. Yet, it's not uncommon
-that clients specifically asks for WordPress as their content management GUI. Most likely
+that clients specifically ask for WordPress as their content management GUI. Most likely
 they've used it before, or they have access to learning materials that is more
 substantial for WP than for other systems.
 
