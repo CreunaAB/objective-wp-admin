@@ -17,7 +17,16 @@ class StringFieldView implements FieldView
     {
         $value = htmlspecialchars($value);
         return "
-            <input name='{$this->field->name()}' value='$value'>
+            <tr>
+                <th scope='row'>
+                    <label for='{$this->field->name()}'>
+                        {$this->field->title()}
+                    </label>
+                </th>
+                <td>
+                    <input id='{$this->field->name()}' name='{$this->field->name()}' value='$value'>
+                </td>
+            </tr>
         ";
     }
 

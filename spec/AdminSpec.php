@@ -98,9 +98,9 @@ class AdminSpec extends ObjectBehavior
                 $callback($post);
                 $markup = ob_get_clean();
 
-                return trim($markup) === trim("
-                    <input name='field_name' value='xyz'>
-                ");
+                return strpos($markup,
+                    "<input id='field_name' name='field_name' value='xyz'>"
+                ) !== false;
             }),
             1000
         )->shouldHaveBeenCalled();

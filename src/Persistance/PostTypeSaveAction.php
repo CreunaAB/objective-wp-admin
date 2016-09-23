@@ -4,6 +4,7 @@ namespace Creuna\ObjectiveWpAdmin\Persistance;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
+use Exception;
 
 class PostTypeSaveAction implements Action
 {
@@ -33,7 +34,7 @@ class PostTypeSaveAction implements Action
         foreach ($schema->fields() as $field) {
             $fieldName = $field->name();
 
-            if (!isset($_POST[$fieldName]) && $field->isRequired()) {
+            if ($_POST[$fieldName] === '' && $field->isRequired()) {
                 throw new Exception("The $fieldName field is required");
             }
 

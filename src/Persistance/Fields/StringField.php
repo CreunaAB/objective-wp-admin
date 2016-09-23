@@ -37,4 +37,9 @@ class StringField implements Field
     {
         return $this->name;
     }
+
+    public function title()
+    {
+        return $this->title;
+    }
 }

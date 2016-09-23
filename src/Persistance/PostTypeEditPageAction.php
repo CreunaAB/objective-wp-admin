@@ -32,10 +32,24 @@ class PostTypeEditPageAction implements Action
 
         $schema = new Schema;
         $this->type->describe($schema);
+
+        if (count($schema->fields()) === 0) {
+            return;
+        }
+
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view();
             return $view->render($adapter->getPostMeta($post->ID, $field->name(), true));
         }, $schema->fields());
-        echo implode('', $widgets);
+
+        $rows = implode('', $widgets);
+
+        echo "
+            <table class='form-table'>
+                <tbody>
+                    $rows
+                </tbody>
+            </table>
+        ";
     }
 }
