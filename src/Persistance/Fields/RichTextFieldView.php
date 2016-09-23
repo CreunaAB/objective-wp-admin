@@ -4,32 +4,19 @@ namespace Creuna\ObjectiveWpAdmin\Persistance\Fields;
 
 use Creuna\ObjectiveWpAdmin\Persistance\FieldView;
 
-class StringFieldView implements FieldView
+class RichTextFieldView implements FieldView
 {
-    protected $field;
-
-    public function __construct(StringField $field)
-    {
-        $this->field = $field;
-    }
-
     public function render($value)
     {
         return "
             <tr>
-                <th scope='row'>
-                    <label for='field_{$this->field->name()}'>
-                        {$this->field->title()}
-                    </label>
-                </th>
-                <td>
-                    <input
+                <td scope='row' colspan='2'>
+                    <textarea
                         type='text'
                         class='regular-text'
                         id='field_{$this->field->name()}'
                         name='{$this->field->name()}'
-                        value='$value'
-                    >
+                    >$value</textarea>
                 </td>
             </tr>
         ";

@@ -39,7 +39,11 @@ class PostTypeEditPageAction implements Action
 
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view();
-            return $view->render($adapter->getPostMeta($post->ID, $field->name(), true));
+            return $view->render(
+                htmlspecialchars(
+                    $adapter->getPostMeta($post->ID, $field->name(), true)
+                )
+            );
         }, $schema->fields());
 
         $rows = implode('', $widgets);

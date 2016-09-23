@@ -21,4 +21,9 @@ class Schema
     {
         return $this->add(new Fields\StringField($name, $title));
     }
+
+    public function richText($name, $title = null)
+    {
+        return $this->add(new Fields\RichTextField($name, $title));
+    }
 }
