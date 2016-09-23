@@ -10,14 +10,19 @@ class RichTextFieldView implements FieldView
     {
         return "
             <tr>
-                <td scope='row' colspan='2'>
+                <th scope='row' colspan='2'>
+                    <div>
+                        <label for='field_{$this->field->name()}'>
+                            {$this->field->title()}
+                        </label>
+                    </div>
                     <textarea
-                        type='text'
+                        style='width: 100%'
                         class='regular-text'
                         id='field_{$this->field->name()}'
                         name='{$this->field->name()}'
                     >$value</textarea>
-                </td>
+                </th>
             </tr>
         ";
     }
