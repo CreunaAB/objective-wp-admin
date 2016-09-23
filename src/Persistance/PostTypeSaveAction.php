@@ -22,7 +22,7 @@ class PostTypeSaveAction implements Action
     public function call(AdminAdapter $adapter, array $args)
     {
         $post = $adapter->getPost($args[0]);
-        $name = strtolower(implode('_', explode('\\', get_class($this->type))));
+        $name = PostTypeUtils::postTypeName($this->type);
 
         if ($post->post_type != $name) {
             return;
@@ -32,11 +32,16 @@ class PostTypeSaveAction implements Action
         $this->type->describe($schema);
         foreach ($schema->fields() as $field) {
             $fieldName = $field->name();
-            $newValue = $_POST[$fieldName];
 
-            if (!isset($newValue) && $field->isRequired()) {
+            if (!isset($_POST[$fieldName]) && $field->isRequired()) {
                 throw new Exception("The $fieldName field is required");
             }
+
+            if (!isset($_POST[$fieldName])) {
+                continue;
+            }
+
+            $newValue = $field->view()->parseValue($_POST[$fieldName]);
 
             $adapter->setPostMeta($post->ID, $fieldName, $newValue);
         }

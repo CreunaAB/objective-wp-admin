@@ -20,4 +20,9 @@ class StringFieldView implements FieldView
             <input name='{$this->field->name()}' value='$value'>
         ";
     }
+
+    public function parseValue($value)
+    {
+        return $value;
+    }
 }

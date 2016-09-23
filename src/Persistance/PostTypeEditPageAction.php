@@ -24,6 +24,12 @@ class PostTypeEditPageAction implements Action
     public function call(AdminAdapter $adapter, array $args)
     {
         list($post) = $args;
+        $name = PostTypeUtils::postTypeName($this->type);
+
+        if ($post->post_type !== $name) {
+            return;
+        }
+
         $schema = new Schema;
         $this->type->describe($schema);
         $widgets = array_map(function ($field) use ($adapter, $post) {

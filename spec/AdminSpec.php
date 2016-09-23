@@ -94,6 +94,7 @@ class AdminSpec extends ObjectBehavior
                 ob_start();
                 $post = new StdClass;
                 $post->ID = 1;
+                $post->post_type = 'spec_creuna_objectivewpadmin_test';
                 $callback($post);
                 $markup = ob_get_clean();
 
