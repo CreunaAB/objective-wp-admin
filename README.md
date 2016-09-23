@@ -52,7 +52,7 @@ create a file that will be run on every request to the Admin pages.
 <?php // wordpress/wp-content/themes/your-theme/functions.php
 
 // Get out of the clutches of WordPress
-require_once(__DIR__.'/../../../../app/admin.php');
+require_once(__DIR__.'/../../../../app/Admin/admin.php');
 ```
 
 ```php
