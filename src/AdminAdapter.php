@@ -64,6 +64,15 @@ interface AdminAdapter
     public function getPostMeta($id, $key, $single);
 
     /**
+     * Sets or updates the value for a specific meta key on a post.
+     *
+     * @param int    $id    The post id.
+     * @param string $key   The meta key.
+     * @param string $value The new value.
+     */
+    public function setPostMeta($id, $key, $value);
+
+    /**
      * Gets the post for a given id.
      *
      * @param int $id The post id.
@@ -73,11 +82,13 @@ interface AdminAdapter
     public function getPost($id);
 
     /**
-     * Sets or updates the value for a specific meta key on a post.
+     * Queries the database for posts.
      *
-     * @param int    $id    The post id.
-     * @param string $key   The meta key.
-     * @param string $value The new value.
+     * @see https://codex.wordpress.org/Template_Tags/get_posts
+     *
+     * @param array $query
+     *
+     * @return array
      */
-    public function setPostMeta($id, $key, $value);
+    public function getPosts($query);
 }

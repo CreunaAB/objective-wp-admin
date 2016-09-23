@@ -7,6 +7,7 @@ use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Persistance\PostType;
+use Creuna\ObjectiveWpAdmin\Persistance\Repository;
 use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -122,6 +123,11 @@ class AdminSpec extends ObjectBehavior
             }),
             1000
         )->shouldHaveBeenCalled();
+    }
+
+    function it_creates_repositories_for_post_types(AdminAdapter $adapter)
+    {
+        $this->repository(Test::class)->shouldHaveType(Repository::class);
     }
 }
 

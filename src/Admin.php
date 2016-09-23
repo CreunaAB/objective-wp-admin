@@ -5,6 +5,7 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
+use Creuna\ObjectiveWpAdmin\Persistance\Repository;
 use Exception;
 
 class Admin
@@ -83,5 +84,18 @@ class Admin
         $this->hook(new Persistance\PostTypeRegisterAction($postType));
         $this->hook(new Persistance\PostTypeEditPageAction($postType));
         $this->hook(new Persistance\PostTypeSaveAction($postType));
+    }
+
+    /**
+     * Creates a Repository instance that can query the database
+     * for posts of a specific post type.
+     *
+     * @param string $type The qualified name of the PostType class.
+     *
+     * @return Repository
+     */
+    public function repository($type)
+    {
+        return new Repository($this->adapter, new $type);
     }
 }
