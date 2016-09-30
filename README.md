@@ -105,6 +105,24 @@ $admin = Admin::reset();
 $admin->registerType(Podcast::class);
 ```
 
+#### Querying
+We can then query the database by asking the `$admin` for a repository, like so:
+
+```php
+// ...
+
+$podcasts = $admin->repository(Podcast::class);
+
+// Get all podcasts
+$podcasts->all();
+
+// Get the 5 most recent podcasts
+$podcasts->take(5)->all();
+
+// Skip 5 podcasts, and get the 5 next ones (page 2)
+$podcasts->skip(5)->take(5)->all();
+```
+
 ### Hooks
 The WordPress hooks system is a bit nasty. There is almost no consistency, and since WP is
 a globally mutable mess, you have to make sure that some listeners are fired before others.
