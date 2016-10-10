@@ -105,6 +105,33 @@ $admin = Admin::reset();
 $admin->registerType(Podcast::class);
 ```
 
+#### Schema
+The Schema Builder that is received in the `describe` method on the post type, has a very
+descriptive API, that directly reflects the fields that are available on the edit page.
+
+##### `title`
+This method adds back the title field to the page, along with the slug editor.
+
+```php
+$schema->title();
+```
+
+##### `body`
+This method adds back the content editor to the page.
+
+```php
+$schema->body();
+```
+
+##### `string`
+This adds a simple text field to the page. In the example below, `myField` will be the name of
+the field, and `My Field` will be the label text. The second parameter is optional, and will
+default to uppercasing the name of the field (`name -> Name`).
+
+```php
+$schema->string('myField', 'My Field');
+```
+
 #### Querying
 We can then query the database by asking the `$admin` for a repository, like so:
 
