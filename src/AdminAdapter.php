@@ -90,5 +90,16 @@ interface AdminAdapter
      *
      * @return array
      */
-    public function getPosts($query);
+    public function getPosts(array $query);
+
+    /**
+     * Registers a permalink structure for a post type.
+     *
+     * @see https://codex.wordpress.org/Function_Reference/add_permastruct
+     *
+     * @param string $postType    The name of the post type.
+     * @param string $permastruct The permastruct expression, like "/%postname%".
+     * $param array  $args        Some arguments, see docs.
+     */
+    public function addPermastruct($postType, $permastruct, array $args);
 }

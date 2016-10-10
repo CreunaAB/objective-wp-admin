@@ -58,10 +58,14 @@ class Admin
                 return $hook->call($this->adapter, $args);
             };
 
+            $priority = isset($hook->priority)
+                ? $hook->priority
+                : 1000;
+
             if ($hook instanceof Filter) {
-                $this->adapter->filter($hook->event(), $callback, 1000);
+                $this->adapter->filter($hook->event(), $callback, $priority);
             } elseif ($hook instanceof Action) {
-                $this->adapter->action($hook->event(), $callback, 1000);
+                $this->adapter->action($hook->event(), $callback, $priority);
             } else {
                 throw new Exception(get_class($hook).' is neither an action nor a filter.');
             }
@@ -84,6 +88,8 @@ class Admin
         $this->hook(new Persistance\PostTypeRegisterAction($postType));
         $this->hook(new Persistance\PostTypeEditPageAction($postType));
         $this->hook(new Persistance\PostTypeSaveAction($postType));
+        $this->hook(new Persistance\PostTypePermalinkAction($postType));
+        $this->hook(new Persistance\PostTypePermalinkFilter($postType));
     }
 
     /**

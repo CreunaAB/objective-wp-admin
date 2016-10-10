@@ -11,17 +11,18 @@ use get_post_meta;
 use update_post_meta;
 use get_post;
 use get_posts;
+use add_permastruct;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
     public function action($hook, callable $callback, $priority)
     {
-        add_action($hook, $callback, $priority);
+        add_action($hook, $callback, $priority, 10);
     }
 
     public function filter($hook, callable $callback, $priority)
     {
-        add_filter($hook, $callback, $priority);
+        add_filter($hook, $callback, $priority, 10);
     }
 
     public function removeMenuPage($id)
@@ -54,8 +55,13 @@ class WordPressAdminAdapter implements AdminAdapter
         return get_post($id);
     }
 
-    public function getPosts($query)
+    public function getPosts(array $query)
     {
         return get_posts($query);
+    }
+
+    public function addPermastruct($postType, $permastruct, array $args)
+    {
+        return add_permastruct($postType, $permastruct, $args);
     }
 }

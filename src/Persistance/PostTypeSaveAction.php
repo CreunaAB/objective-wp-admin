@@ -34,7 +34,7 @@ class PostTypeSaveAction implements Action
         foreach ($schema->fields() as $field) {
             $fieldName = $field->name();
 
-            if ($_POST[$fieldName] === '' && $field->isRequired()) {
+            if ((!isset($_POST[$fieldName]) || $_POST[$fieldName] === '') && $field->isRequired()) {
                 throw new Exception("The $fieldName field is required");
             }
 

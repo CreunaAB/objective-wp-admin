@@ -6,6 +6,13 @@ use Creuna\ObjectiveWpAdmin\Persistance\FieldView;
 
 class RichTextFieldView implements FieldView
 {
+    protected $field;
+
+    public function __construct(RichTextField $field)
+    {
+        $this->field = $field;
+    }
+
     public function render($value)
     {
         return "

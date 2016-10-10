@@ -45,7 +45,7 @@ class RepositorySpec extends ObjectBehavior
                 'post_author' => 1,
                 'post_name' => 'some-slug',
                 'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
-                'post_title' => '',
+                'post_title' => 'Some Title',
                 'post_date' => '2011-11-11 00:00:00',
                 'post_date_gmt' => '2011-11-11 00:00:00',
                 'post_content' => '',
@@ -68,6 +68,7 @@ class RepositorySpec extends ObjectBehavior
             (object) [
                 'id' => 1,
                 'slug' => 'some-slug',
+                'title' => 'Some Title',
                 'createdAt' => new DateTime('2011-11-11 00:00:00'),
                 'updatedAt' => new DateTime('2011-11-11 00:00:00'),
                 'status' => 'publish',
@@ -97,12 +98,15 @@ class RepositorySpec extends ObjectBehavior
 
         $this->skip(10)->all()->shouldBe([]);
     }
+
+
 }
 
 class MyPostType implements PostType
 {
     public function describe(Schema $schema)
     {
+        $schema->title();
         $schema->string('someField');
     }
 }

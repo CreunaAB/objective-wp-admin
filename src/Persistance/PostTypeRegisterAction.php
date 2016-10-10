@@ -4,6 +4,7 @@ namespace Creuna\ObjectiveWpAdmin\Persistance;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
+use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 
 class PostTypeRegisterAction implements Action
 {
@@ -25,26 +26,25 @@ class PostTypeRegisterAction implements Action
         $segments = explode('\\', $type);
         $singular = end($segments);
 
+        $schema = new Schema();
+        $this->type->describe($schema);
+
+        $slug = strtolower(implode('_', $segments));
+
         $adapter->registerPostType(
-            strtolower(implode('_', $segments)),
+            $slug,
             [
                 'labels' => [
                     'name' => "{$singular}s",
                     'singular_name' => $singular,
                 ],
                 'public' => true,
-                'supports' => [
-                    'title' => false,
-                    'editor' => false,
-                    'author' => false,
-                    'thumbnail' => false,
-                    'excerpt' => false,
-                    'trackbacks' => false,
-                    'custom-fields' => false,
-                    'comments' => false,
-                    'revisions' => false,
-                    'page-attributes' => false,
-                    'post-formats' => false,
+                'supports' => $schema->supports() ?: false,
+                'rewrite' => [
+                    'with_front' => false,
+                    'slug' => $slug,
+                    'feeds' => false,
+                    'pages' => false,
                 ],
             ]
         );

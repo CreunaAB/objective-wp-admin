@@ -39,4 +39,43 @@ class SchemaSpec extends ObjectBehavior
             new StringField('pol', 'Pöl', false),
         ]);
     }
+
+    function it_contains_the_wp_post_type_supports_array()
+    {
+        $this->supports()->shouldBe([]);
+    }
+
+    function it_can_change_the_supports_fields()
+    {
+        $this->support('title');
+
+        $this->supports()->shouldContain('title');
+    }
+
+    function it_has_a_shorthand_for_enabling_title()
+    {
+        $this->title();
+
+        $this->supports()->shouldContain('title');
+    }
+
+    function it_has_a_shorthand_for_enabling_body()
+    {
+        $this->body();
+
+        $this->supports()->shouldContain('editor');
+    }
+
+    function it_contains_the_wp_permalink_structure()
+    {
+        $this->permastruct()->shouldBe('/:id');
+        $this->permastruct('/my-path/:id');
+        $this->permastruct()->shouldBe('/my-path/:id');
+    }
+
+    function it_fixes_trailing_or_non_leading_slashes()
+    {
+        $this->permastruct('my-path/:id/');
+        $this->permastruct()->shouldBe('/my-path/:id');
+    }
 }

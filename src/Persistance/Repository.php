@@ -35,22 +35,7 @@ class Repository
 
     private function wrap($post)
     {
-        $fields = [
-            'id' => $post->ID,
-            'slug' => $post->post_name,
-            'createdAt' => new DateTime($post->post_date_gmt),
-            'updatedAt' => new DateTime($post->post_modified_gmt),
-            'status' => $post->post_status,
-        ];
-
-        $schema = new Schema;
-        $this->type->describe($schema);
-        foreach ($schema->fields() as $field) {
-            $name = $field->name();
-            $fields[$name] = $this->adapter->getPostMeta($post->ID, $name, true);
-        }
-
-        return (object) $fields;
+        return PostTypeUtils::parsePost($this->adapter, $this->type, $post);
     }
 
     /**
