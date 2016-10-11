@@ -99,7 +99,47 @@ class RepositorySpec extends ObjectBehavior
         $this->skip(10)->all()->shouldBe([]);
     }
 
+    function it_can_make_where_clauses(AdminAdapter $adapter)
+    {
+        $adapter->getPosts([
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'meta_query' => [
+                'relation' => 'AND',
+                [
+                    'key' => 'field',
+                    'value' => 'value',
+                    'compare' => '=',
+                ],
+                [
+                    'key' => 'other',
+                    'value' => 123,
+                    'compare' => '>=',
+                ],
+            ]
+        ])->shouldBeCalled()->willReturn([]);
 
+        $this
+            ->where('field', '=', 'value')
+            ->where('other', '>=', 123)
+            ->all()->shouldReturn([]);
+    }
+
+    function it_treats_a_constraint_on_slug_differently(AdminAdapter $adapter)
+    {
+        $adapter->getPosts([
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'meta_query' => [ 'relation' => 'AND' ],
+            'name' => 'some-slug',
+        ])->shouldBeCalled()->willReturn([]);
+
+        $this
+            ->where('slug', '=', 'some-slug')
+            ->all()->shouldReturn([]);
+    }
 }
 
 class MyPostType implements PostType

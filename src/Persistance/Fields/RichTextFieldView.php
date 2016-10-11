@@ -26,7 +26,7 @@ class RichTextFieldView implements FieldView
                     </div>
                     <textarea
                         style='width: 100%'
-                        class='regular-text objective-wp-admin__add-editor'
+                        class='regular-text objective-wp-admin__add-editor--{$this->field->name()}'
                         id='field_{$this->field->name()}'
                         name='custom_{$this->field->name()}'
                     >$value</textarea>
@@ -50,7 +50,7 @@ class RichTextFieldView implements FieldView
         $adapter->action('admin_print_footer_scripts', function () {
             echo "
                 <script>
-                    jQuery('textarea.objective-wp-admin__add-editor').each(function () {
+                    jQuery('textarea.objective-wp-admin__add-editor--{$this->field->name()}').each(function () {
                         tinyMCE.execCommand('mceAddEditor', false, this.id);
                     });
                 </script>

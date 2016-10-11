@@ -23,6 +23,16 @@ interface AdminAdapter
     public function filter($hook, callable $callback, $priority);
 
     /**
+     * Applies a filter to some variable.
+     *
+     * @param string $hook     The id of the filter.
+     * @param string $variable The variable to transform.
+     *
+     * @return mixed
+     */
+    public function applyFilters($hook, $variable);
+
+    /**
      * Removes a menu page.
      *
      * @see src/Reset/ResetMenuHook.php

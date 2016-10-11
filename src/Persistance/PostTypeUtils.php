@@ -31,6 +31,10 @@ class PostTypeUtils
             $fields['title'] = $post->post_title;
         }
 
+        if ($schema->supports('editor')) {
+            $fields['body'] = $adapter->applyFilters('the_content', $post->post_content);
+        }
+
         foreach ($schema->fields() as $field) {
             $name = $field->name();
             $fields[$name] = $adapter->getPostMeta($post->ID, $name, true);

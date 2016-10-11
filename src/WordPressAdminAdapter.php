@@ -4,6 +4,7 @@ namespace Creuna\ObjectiveWpAdmin;
 
 use add_action;
 use add_filter;
+use apply_filters;
 use remove_menu_page;
 use remove_submenu_page;
 use register_post_type;
@@ -27,6 +28,11 @@ class WordPressAdminAdapter implements AdminAdapter
     public function filter($hook, callable $callback, $priority)
     {
         add_filter($hook, $callback, $priority, 10);
+    }
+
+    public function applyFilters($hook, $variable)
+    {
+        return apply_filters($hook, $variable);
     }
 
     public function removeMenuPage($id)
