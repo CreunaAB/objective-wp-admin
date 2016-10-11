@@ -102,4 +102,44 @@ interface AdminAdapter
      * $param array  $args        Some arguments, see docs.
      */
     public function addPermastruct($postType, $permastruct, array $args);
+
+    /**
+     * Registers a JavaScript file, identified by an id.
+     *
+     * @see https://developer.wordpress.org/reference/functions/wp_register_script
+     *
+     * @param string $id      A unique id for this script.
+     * @param string $src     The source URL of the script.
+     * @param array  $deps    A list of ids for all other scripts that this one depends on.
+     * @param string $version A version number to be used as a cache buster.
+     */
+    public function registerScript($id, $src, $deps = [], $version = null);
+
+    /**
+     * Includes a JavaScript file on the page, identified by an id.
+     *
+     * @see https://developer.wordpress.org/reference/functions/wp_enqueue_script
+     *
+     * @param string $id The unique id of the script to include on the page.
+     */
+    public function enqueueScript($id);
+
+    /**
+     * @see https://developer.wordpress.org/reference/functions/wp_register_style
+     *
+     * @param string $id      A unique id for this stylesheet.
+     * @param string $src     The source URL of the stylesheet.
+     * @param array  $deps    A list of ids for all other stylesheets that this one depends on.
+     * @param string $version A version number to be used as a cache buster.
+     */
+    public function registerStyle($id, $src, $deps = [], $version = null);
+
+    /**
+     * Includes a CSS stylesheet on the page, identified by an id.
+     *
+     * @see https://developer.wordpress.org/reference/functions/wp_enqueue_style
+     *
+     * @param string $id The unique id of the stylesheet to include on the page.
+     */
+    public function enqueueStyle($id);
 }

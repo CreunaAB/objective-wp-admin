@@ -37,13 +37,15 @@ class PostTypeEditPageAction implements Action
             return;
         }
 
+        $schema->registerAndEnqueueAssets($adapter);
+
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view();
-            return $view->render(
-                htmlspecialchars(
-                    $adapter->getPostMeta($post->ID, $field->name(), true)
-                )
-            );
+            $value = $adapter->getPostMeta($post->ID, $field->name(), true);
+            if (is_array($value)) {
+                return $view->render(array_map('htmlspecialchars', $value));
+            }
+            return $view->render(htmlspecialchars($value));
         }, $schema->fields());
 
         $rows = implode('', $widgets);

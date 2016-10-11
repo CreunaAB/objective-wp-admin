@@ -2,6 +2,8 @@
 
 namespace Creuna\ObjectiveWpAdmin\Persistance;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+
 interface FieldView
 {
     /**
@@ -22,4 +24,11 @@ interface FieldView
      * @return mixed
      */
     public function parseValue($value);
+
+    /**
+     * Used as a hook to register and enqueue any scripts or styles.
+     *
+     * @param AdminAdapter $adapter
+     */
+    public function assets(AdminAdapter $adapter);
 }

@@ -12,6 +12,10 @@ use update_post_meta;
 use get_post;
 use get_posts;
 use add_permastruct;
+use wp_register_script;
+use wp_enqueue_script;
+use wp_register_style;
+use wp_enqueue_style;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
@@ -63,5 +67,25 @@ class WordPressAdminAdapter implements AdminAdapter
     public function addPermastruct($postType, $permastruct, array $args)
     {
         return add_permastruct($postType, $permastruct, $args);
+    }
+
+    public function registerScript($handle, $src, $deps = [], $version = null)
+    {
+        wp_register_script($handle, $src, $deps, $version ?: false, true);
+    }
+
+    public function enqueueScript($handle)
+    {
+        wp_enqueue_script($handle);
+    }
+
+    public function registerStyle($handle, $src, $deps = [], $version = null)
+    {
+        wp_register_style($handle, $src, $deps, $version ?: false, 'screen');
+    }
+
+    public function enqueueStyle($handle)
+    {
+        wp_enqueue_style($handle);
     }
 }

@@ -27,17 +27,15 @@ class PostTypeRegisterAction implements Action
         $singular = end($segments);
 
         $schema = new Schema();
+        $schema->autoLabels($singular);
         $this->type->describe($schema);
 
-        $slug = strtolower(implode('_', $segments));
+        $slug = PostTypeUtils::postTypeName($this->type);
 
         $adapter->registerPostType(
             $slug,
             [
-                'labels' => [
-                    'name' => "{$singular}s",
-                    'singular_name' => $singular,
-                ],
+                'labels' => $schema->labels(),
                 'public' => true,
                 'supports' => $schema->supports() ?: false,
                 'rewrite' => [

@@ -2,6 +2,8 @@
 
 namespace Creuna\ObjectiveWpAdmin\Persistance;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+
 interface Field
 {
     /**
@@ -26,4 +28,11 @@ interface Field
      * @return bool
      */
     public function isRequired();
+
+    /**
+     * Tells the PostType that the field holds multiple values.
+     *
+     * @return bool
+     */
+    public function holdsArray();
 }

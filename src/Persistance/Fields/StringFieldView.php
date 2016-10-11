@@ -2,6 +2,7 @@
 
 namespace Creuna\ObjectiveWpAdmin\Persistance\Fields;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Persistance\FieldView;
 
 class StringFieldView implements FieldView
@@ -27,7 +28,7 @@ class StringFieldView implements FieldView
                         type='text'
                         class='regular-text'
                         id='field_{$this->field->name()}'
-                        name='{$this->field->name()}'
+                        name='custom_{$this->field->name()}'
                         value='$value'
                     >
                 </td>
@@ -38,5 +39,9 @@ class StringFieldView implements FieldView
     public function parseValue($value)
     {
         return $value;
+    }
+
+    public function assets(AdminAdapter $adapter)
+    {
     }
 }

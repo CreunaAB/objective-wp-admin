@@ -72,14 +72,25 @@ class AdminSpec extends ObjectBehavior
                     'labels' => [
                         'name' => 'Tests',
                         'singular_name' => 'Test',
+                        'add_new_item' => 'Add New Test',
+                        'edit_item' => 'Edit Test',
+                        'new_item' => 'New Test',
+                        'view_item' => 'View Test',
+                        'search_items' => 'Search Tests',
+                        'not_found' => 'No tests found',
+                        'not_found_in_trash' => 'No tests found in trash',
+                        'all_items' => 'All Tests',
+                        'archives' => 'Test Archives',
+                        'insert_into_item' => 'Insert into test',
+                        'uploaded_to_this_item' => 'Uploaded to this test',
                     ],
                     'public' => true,
                     'supports' => false,
                     'rewrite' => [
-                    'with_front' => false,
-                    'slug' => 'spec_creuna_objectivewpadmin_test',
-                    'feeds' => false,
-                    'pages' => false,
+                        'with_front' => false,
+                        'slug' => 'spec_creuna_objectivewpadmin_test',
+                        'feeds' => false,
+                        'pages' => false,
                     ],
                 ]
             )->shouldBeCalled();
@@ -107,7 +118,7 @@ class AdminSpec extends ObjectBehavior
                 $markup = ob_get_clean();
 
                 return strpos($markup,
-                    "name='fieldName'"
+                    "name='custom_fieldName'"
                 ) !== false && strpos($markup,
                     "value='xyz'"
                 ) !== false;
@@ -121,7 +132,7 @@ class AdminSpec extends ObjectBehavior
         $adapter->action(
             'save_post',
             Argument::that(function ($callback) use ($adapter) {
-                $_POST['fieldName'] = 'value';
+                $_POST['custom_fieldName'] = 'value';
                 $post = new StdClass;
                 $post->ID = 1;
                 $post->post_type = 'spec_creuna_objectivewpadmin_test';

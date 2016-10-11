@@ -2,6 +2,8 @@
 
 namespace Creuna\ObjectiveWpAdmin\Persistance;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+
 class Schema
 {
     protected $fields = [];
@@ -19,6 +21,47 @@ class Schema
         // 'post-formats',
     ];
     protected $permastruct = '/:id';
+    protected $labels = [
+        // 'name'
+        // 'singular_name'
+        // 'add_new'
+        // 'add_new_item'
+        // 'edit_item'
+        // 'new_item'
+        // 'view_item'
+        // 'search_items'
+        // 'not_found'
+        // 'not_found_in_trash'
+        // 'parent_item_colon'
+        // 'all_items'
+        // 'archives'
+        // 'insert_into_item'
+        // 'uploaded_to_this_item'
+        // 'featured_image'
+        // 'set_featured_image'
+        // 'remove_featured_image'
+        // 'use_featured_image'
+        // 'menu_name'
+        // 'filter_items_list'
+        // 'items_list_navigation'
+        // 'items_list'
+        // 'name_admin_bar'
+    ];
+
+    public function labels(array $labels = null)
+    {
+        if (isset($labels)) {
+            $this->labels = array_merge($this->labels, $labels);
+            return $this;
+        }
+        return $this->labels;
+    }
+
+    public function label($id, $value)
+    {
+        $this->labels[$id] = $value;
+        return $this;
+    }
 
     public function fields()
     {
@@ -39,6 +82,11 @@ class Schema
     public function richText($name, $title = null)
     {
         return $this->add(new Fields\RichTextField($name, $title));
+    }
+
+    public function select($name, $title = null)
+    {
+        return $this->add(new Fields\SelectField($name, $title));
     }
 
     public function supports($key = null)
@@ -72,5 +120,36 @@ class Schema
             return $this;
         }
         return $this->permastruct;
+    }
+
+    public function autoLabels($title)
+    {
+        $ucSingular = $title;
+        $ucPlural = "{$title}s";
+        $lcSingular = strtolower($ucSingular);
+        $lcPlural = strtolower($ucPlural);
+
+        return $this->labels([
+            'name' => "$ucPlural",
+            'singular_name' => "$ucSingular",
+            'add_new_item' => "Add New $ucSingular",
+            'edit_item' => "Edit $ucSingular",
+            'new_item' => "New $ucSingular",
+            'view_item' => "View $ucSingular",
+            'search_items' => "Search $ucPlural",
+            'not_found' => "No $lcPlural found",
+            'not_found_in_trash' => "No $lcPlural found in trash",
+            'all_items' => "All $ucPlural",
+            'archives' => "$ucSingular Archives",
+            'insert_into_item' => "Insert into $lcSingular",
+            'uploaded_to_this_item' => "Uploaded to this $lcSingular",
+        ]);
+    }
+
+    public function registerAndEnqueueAssets(AdminAdapter $adapter)
+    {
+        foreach ($this->fields() as $field) {
+            $field->view()->assets($adapter);
+        }
     }
 }

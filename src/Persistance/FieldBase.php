@@ -2,6 +2,8 @@
 
 namespace Creuna\ObjectiveWpAdmin\Persistance;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+
 trait FieldBase
 {
     protected $name;
@@ -34,5 +36,10 @@ trait FieldBase
     public function title()
     {
         return $this->title;
+    }
+
+    public function holdsArray()
+    {
+        return false;
     }
 }

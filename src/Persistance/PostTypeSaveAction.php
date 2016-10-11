@@ -33,16 +33,17 @@ class PostTypeSaveAction implements Action
         $this->type->describe($schema);
         foreach ($schema->fields() as $field) {
             $fieldName = $field->name();
+            $fieldFormName = "custom_$fieldName";
 
-            if ((!isset($_POST[$fieldName]) || $_POST[$fieldName] === '') && $field->isRequired()) {
+            if ((!isset($_POST[$fieldFormName]) || $_POST[$fieldFormName] === '') && $field->isRequired()) {
                 throw new Exception("The $fieldName field is required");
             }
 
-            if (!isset($_POST[$fieldName])) {
+            if (!isset($_POST[$fieldFormName])) {
                 continue;
             }
 
-            $newValue = $field->view()->parseValue($_POST[$fieldName]);
+            $newValue = $field->view()->parseValue($_POST[$fieldFormName]);
 
             $adapter->setPostMeta($post->ID, $fieldName, $newValue);
         }
