@@ -42,4 +42,9 @@ trait FieldBase
     {
         return false;
     }
+
+    public function export($value)
+    {
+        return $value;
+    }
 }

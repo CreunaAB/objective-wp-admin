@@ -4,8 +4,9 @@ namespace Creuna\ObjectiveWpAdmin\Persistance;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Persistance\Schema;
-use WP_Post;
+use Creuna\ObjectiveWpAdmin\Util\DynamicObject;
 use DateTime;
+use WP_Post;
 
 class PostTypeUtils
 {
@@ -37,9 +38,11 @@ class PostTypeUtils
 
         foreach ($schema->fields() as $field) {
             $name = $field->name();
-            $fields[$name] = $adapter->getPostMeta($post->ID, $name, true);
+            $fields[$name] = $field->export(
+                $adapter->getPostMeta($post->ID, $name, true)
+            );
         }
 
-        return (object) $fields;
+        return new DynamicObject($fields);
     }
 }

@@ -89,6 +89,11 @@ class Schema
         return $this->add(new Fields\SelectField($name, $title));
     }
 
+    public function media($name, $title = null)
+    {
+        return $this->add(new Fields\MediaField($name, $title));
+    }
+
     public function supports($key = null)
     {
         if (isset($key)) {

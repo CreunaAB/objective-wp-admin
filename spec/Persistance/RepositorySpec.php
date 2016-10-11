@@ -9,6 +9,7 @@ use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use DateTime;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Creuna\ObjectiveWpAdmin\Util\DynamicObject;
 
 class RepositorySpec extends ObjectBehavior
 {
@@ -65,7 +66,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPostMeta(1, 'someField', true)->shouldBeCalled()->willReturn('value');
 
         $this->all()->shouldBeLike([
-            (object) [
+            new DynamicObject([
                 'id' => 1,
                 'slug' => 'some-slug',
                 'title' => 'Some Title',
@@ -73,7 +74,7 @@ class RepositorySpec extends ObjectBehavior
                 'updatedAt' => new DateTime('2011-11-11 00:00:00'),
                 'status' => 'publish',
                 'someField' => 'value',
-            ],
+            ]),
         ]);
     }
 

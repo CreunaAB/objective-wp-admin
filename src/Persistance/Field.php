@@ -35,4 +35,12 @@ interface Field
      * @return bool
      */
     public function holdsArray();
+
+    /**
+     * Transform the value before export.
+     *
+     * @param  mixed $value The raw field value.
+     * @return mixed
+     */
+    public function export($value);
 }
