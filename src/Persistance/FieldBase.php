@@ -33,6 +33,15 @@ trait FieldBase
         return $this->name;
     }
 
+    public function defaults($value = null)
+    {
+        if (isset($value)) {
+            $this->defaultValue = $value;
+            return $this;
+        }
+        return $this->defaultValue;
+    }
+
     public function title()
     {
         return $this->title;

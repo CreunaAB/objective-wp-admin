@@ -3,8 +3,9 @@
 namespace Creuna\ObjectiveWpAdmin\Util;
 
 use Closure;
+use JsonSerializable;
 
-class DynamicObject
+class DynamicObject implements JsonSerializable
 {
     protected $fields = [];
     protected $methods = [];
@@ -29,5 +30,9 @@ class DynamicObject
     {
         $callback = $this->methods[$method];
         return $callback(...$args);
+    }
+
+    public function jsonSerialize() {
+        return $this->fields;
     }
 }

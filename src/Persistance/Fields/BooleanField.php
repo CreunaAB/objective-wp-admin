@@ -5,14 +5,19 @@ namespace Creuna\ObjectiveWpAdmin\Persistance\Fields;
 use Creuna\ObjectiveWpAdmin\Persistance\Field;
 use Creuna\ObjectiveWpAdmin\Persistance\FieldBase;
 
-class RichTextField implements Field
+class BooleanField implements Field
 {
     use FieldBase;
 
-    protected $defaultValue = '';
+    protected $defaultValue = false;
 
     public function view()
     {
-        return new RichTextFieldView($this);
+        return new BooleanFieldView($this);
+    }
+
+    public function export($value)
+    {
+        return !! $value;
     }
 }

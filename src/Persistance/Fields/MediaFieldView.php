@@ -32,7 +32,7 @@ class MediaFieldView implements FieldView
         $fieldId = "field_{$this->field->name()}";
         $data = htmlspecialchars(json_encode($items));
 
-        $buttonLabel = $this->field->holdsArray() ? 'Add images' : 'Choose image';
+        $buttonLabel = $this->field->holdsArray() ? 'Add' : 'Choose';
         return "
             <tr>
                 <th scope='row'>
@@ -41,10 +41,7 @@ class MediaFieldView implements FieldView
                     </label>
                 </th>
                 <td>
-                    <div id='$fieldId' data-items='$data'>
-                        <button id='{$fieldId}_button'>$buttonLabel</button>
-                        <div class='objective-admin__media-list'></div>
-                    </div>
+                    <div id='$fieldId' data-items='$data'></div>
                 </td>
             </tr>
         ";
@@ -61,6 +58,9 @@ class MediaFieldView implements FieldView
 
     public function parseValue($value)
     {
+        if ($value === '') {
+            return [];
+        }
         return explode(',', $value);
     }
 
@@ -79,62 +79,11 @@ class MediaFieldView implements FieldView
                 <script>
                     jQuery(function ($) {
                         var frame;
-                        var field = $('#{$fieldId}');
-                        var button = field.find('button');
-                        var container = field.find('.objective-admin__media-list');
-                        var items = JSON.parse(field.attr('data-items'));
+                        var container = $('#{$fieldId}');
+                        var items = JSON.parse(container.attr('data-items'));
                         var multiple = $multiple;
 
-                        function render () {
-                            var input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'custom_{$this->field->name()}';
-                            input.value = items.map(function (item) {
-                                return item.id;
-                            }).join(',');
-
-                            var images = items.map(function (item) {
-                                var li = document.createElement('li');
-                                li.style.display = 'inline-block';
-                                li.style.width = '20%';
-
-                                var img = document.createElement('img');
-                                img.src = item.url;
-                                img.style.width = '100%';
-
-                                var deleteButton = document.createElement('button');
-                                deleteButton.innerHTML = '<span class=media-modal-icon><span class=screen-reader-text>Remove image</span></span>';
-                                deleteButton.className = 'button-link media-modal-close';
-                                deleteButton.style.float = 'right';
-                                deleteButton.style.position = 'relative';
-                                deleteButton.onclick = function (event) {
-                                    event.preventDefault();
-                                    items = items.filter(function (e) {
-                                        return e.id !== item.id;
-                                    });
-                                    render();
-                                };
-
-                                li.appendChild(deleteButton);
-                                li.appendChild(img);
-
-                                return li;
-                            });
-
-                            var list = document.createElement('ul');
-                            images.forEach(function (img) {
-                                list.appendChild(img);
-                            });
-
-                            container.empty();
-
-                            container.append(input);
-                            container.append(list);
-                        }
-
-                        render();
-
-                        button.click(function (event) {
+                        function onClick (event) {
                             event.preventDefault();
 
                             // If the media frame already exists, reopen it.
@@ -171,7 +120,63 @@ class MediaFieldView implements FieldView
                             });
 
                             frame.open();
-                        });
+                        }
+
+                        function render () {
+                            var input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'custom_{$this->field->name()}';
+                            input.value = items.map(function (item) {
+                                return item.id;
+                            }).join(',');
+
+                            var addButton = document.createElement('button');
+                            addButton.onclick = onClick;
+                            addButton.className = 'button button-large';
+                            addButton.textContent = multiple ? 'Add media' : 'Select media';
+
+                            var images = items.map(function (item) {
+                                var li = document.createElement('li');
+                                li.style.display = 'inline-block';
+                                li.style.width = '20%';
+
+                                var img = document.createElement('img');
+                                img.src = item.url;
+                                img.style.width = '100%';
+
+                                var deleteButton = document.createElement('button');
+                                deleteButton.innerHTML = '<span class=media-modal-icon><span class=screen-reader-text>Remove image</span></span>';
+                                deleteButton.className = 'button-link media-modal-close';
+                                deleteButton.style.float = 'right';
+                                deleteButton.style.position = 'relative';
+                                deleteButton.onclick = function (event) {
+                                    event.preventDefault();
+                                    items = items.filter(function (e) {
+                                        return e.id !== item.id;
+                                    });
+                                    render();
+                                };
+
+                                li.appendChild(deleteButton);
+                                li.appendChild(img);
+
+                                return li;
+                            });
+
+                            var list = document.createElement('ul');
+                            images.forEach(function (img) {
+                                list.appendChild(img);
+                            });
+
+                            container.empty();
+
+                            container.append(addButton);
+                            container.append(input);
+                            container.append(list);
+                        }
+
+                        render();
+
                     });
                 </script>
             ";

@@ -11,6 +11,7 @@ class SelectField implements Field
 
     protected $options = [];
     protected $multiple = false;
+    protected $defaultValue = null;
 
     public function view()
     {
@@ -40,5 +41,13 @@ class SelectField implements Field
     public function holdsArray()
     {
         return $this->multiple;
+    }
+
+    public function export($value)
+    {
+        if ($this->multiple && $value == null) {
+            return [];
+        }
+        return $value;
     }
 }

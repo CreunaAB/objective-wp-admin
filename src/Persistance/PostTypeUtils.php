@@ -38,9 +38,11 @@ class PostTypeUtils
 
         foreach ($schema->fields() as $field) {
             $name = $field->name();
-            $fields[$name] = $field->export(
-                $adapter->getPostMeta($post->ID, $name, true)
-            );
+            $value = $adapter->getPostMeta($post->ID, $name, true);
+            if ($value === '') {
+                $value = $field->defaults();
+            }
+            $fields[$name] = $field->export($value);
         }
 
         return new DynamicObject($fields);

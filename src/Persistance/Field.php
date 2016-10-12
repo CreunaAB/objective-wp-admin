@@ -22,6 +22,15 @@ interface Field
     public function name();
 
     /**
+     * Sets or gets the default value of this field.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function defaults($value = null);
+
+    /**
      * Tells the PostType whether or not this field
      * is required to be present on the post.
      *

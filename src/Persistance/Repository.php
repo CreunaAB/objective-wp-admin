@@ -61,7 +61,7 @@ class Repository
         return array_map([$this, 'wrap'], $this->adapter->getPosts($args));
     }
 
-    private function wrap($post)
+    public function wrap($post)
     {
         return PostTypeUtils::parsePost($this->adapter, $this->type, $post);
     }

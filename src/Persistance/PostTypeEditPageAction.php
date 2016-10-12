@@ -42,6 +42,9 @@ class PostTypeEditPageAction implements Action
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view();
             $value = $adapter->getPostMeta($post->ID, $field->name(), true);
+            if ($value === '') {
+                $value = $field->defaults();
+            }
             if (is_array($value)) {
                 return $view->render(array_map('htmlspecialchars', $value));
             }

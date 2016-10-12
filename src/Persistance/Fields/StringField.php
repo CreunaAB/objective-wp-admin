@@ -9,6 +9,8 @@ class StringField implements Field
 {
     use FieldBase;
 
+    protected $defaultValue = '';
+
     public function view()
     {
         return new StringFieldView($this);

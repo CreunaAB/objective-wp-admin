@@ -10,6 +10,7 @@ class MediaField implements Field
     use FieldBase;
 
     protected $multiple = false;
+    protected $defaultValue = '';
 
     public function view()
     {
@@ -33,7 +34,11 @@ class MediaField implements Field
             return array_map([$this, 'getSrc'], $value);
         }
         if (is_array($value)) {
-            $value = $value[0];
+            if (count($value) === 0) {
+                $value = null;
+            } else {
+                $value = $value[0];
+            }
         }
         return $this->getSrc($value);
     }
