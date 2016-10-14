@@ -90,6 +90,7 @@ class Admin
         $this->hook(new Persistance\PostTypeSaveAction($postType));
         $this->hook(new Persistance\PostTypePermalinkAction($postType));
         $this->hook(new Persistance\PostTypePermalinkFilter($postType));
+        $this->hook(new Persistance\PostTypeCustomizeEditorFilter($postType));
     }
 
     /**

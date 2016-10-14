@@ -58,6 +58,7 @@ class AdminSpec extends ObjectBehavior
         $this->postTypeSaveActionShouldBeAdded($adapter);
         $this->postTypePermalinkActionShouldBeAdded($adapter);
         $this->postTypePermalinkFilterShouldBeAdded($adapter);
+        $this->postTypeCustomizeEditorFilterShouldBeAdded($adapter);
 
         $this->registerType(Test::class);
         $this->execute();
@@ -202,6 +203,15 @@ class AdminSpec extends ObjectBehavior
                 $output = 'http://example.com/1/some-slug/2011-11-11/2011-11-11/publish/xyz';
                 return $callback($input, $post, false) === $output;
             }),
+            1000
+        )->shouldBeCalled();
+    }
+
+    private function postTypeCustomizeEditorFilterShouldBeAdded(AdminAdapter $adapter)
+    {
+        $adapter->filter(
+            'wp_editor_settings',
+            Argument::any(),
             1000
         )->shouldBeCalled();
     }

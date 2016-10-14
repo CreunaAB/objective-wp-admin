@@ -3,9 +3,11 @@
 namespace Creuna\ObjectiveWpAdmin\Persistance;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Persistance\Fields\Editor;
 
 class Schema
 {
+    protected $editor;
     protected $fields = [];
     protected $supports = [
         // 'title',
@@ -117,9 +119,15 @@ class Schema
         $this->support('title');
     }
 
-    public function body()
+    public function body(Editor $editor)
     {
+        $this->editor = $editor;
         $this->support('editor');
+    }
+
+    public function bodyEditor()
+    {
+        return $this->editor;
     }
 
     public function permastruct($value = null)

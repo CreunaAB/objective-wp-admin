@@ -4,6 +4,7 @@ namespace Creuna\ObjectiveWpAdmin\Persistance\Fields;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Persistance\FieldView;
+use Creuna\ObjectiveWpAdmin\Persistance\Fields\Editor;
 
 class RichTextFieldView implements FieldView
 {
@@ -20,19 +21,23 @@ class RichTextFieldView implements FieldView
             <tr>
                 <th scope='row' colspan='2'>
                     <div>
-                        <label for='field_{$this->field->name()}'>
+                        <label for='custom_{$this->field->name()}'>
                             {$this->field->title()}
                         </label>
+                        {$this->editor($value)}
                     </div>
-                    <textarea
-                        style='width: 100%'
-                        class='regular-text objective-wp-admin__add-editor--{$this->field->name()}'
-                        id='field_{$this->field->name()}'
-                        name='custom_{$this->field->name()}'
-                    >$value</textarea>
                 </th>
             </tr>
         ";
+    }
+
+    private function editor($value)
+    {
+        ob_start();
+        $id = "custom_{$this->field->name()}";
+        $value = htmlspecialchars_decode($value);
+        wp_editor($value, $id, $this->field->editor()->config());
+        return ob_get_clean();
     }
 
     public function parseValue($value)
@@ -42,19 +47,5 @@ class RichTextFieldView implements FieldView
 
     public function assets(AdminAdapter $adapter)
     {
-        $adapter->enqueueScript('media-upload');
-        $adapter->enqueueScript('thickbox');
-
-        $adapter->enqueueStyle('thickbox');
-
-        $adapter->action('admin_print_footer_scripts', function () {
-            echo "
-                <script>
-                    jQuery('textarea.objective-wp-admin__add-editor--{$this->field->name()}').each(function () {
-                        tinyMCE.execCommand('mceAddEditor', false, this.id);
-                    });
-                </script>
-            ";
-        }, 1000);
     }
 }

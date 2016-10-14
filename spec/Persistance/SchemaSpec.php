@@ -8,6 +8,7 @@ use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Persistance\Fields\Editor;
 
 class SchemaSpec extends ObjectBehavior
 {
@@ -60,11 +61,12 @@ class SchemaSpec extends ObjectBehavior
         $this->supports()->shouldContain('title');
     }
 
-    function it_has_a_shorthand_for_enabling_body()
+    function it_has_a_shorthand_for_enabling_body(Editor $editor)
     {
-        $this->body();
+        $this->body($editor);
 
         $this->supports()->shouldContain('editor');
+        $this->bodyEditor()->shouldBe($editor);
     }
 
     function it_contains_the_wp_permalink_structure()
@@ -116,16 +118,5 @@ class SchemaSpec extends ObjectBehavior
             'insert_into_item' => 'Insert into thing',
             'uploaded_to_this_item' => 'Uploaded to this thing',
         ]);
-    }
-
-    function it_registers_and_assets_needed_to_display_certain_fields(AdminAdapter $adapter)
-    {
-        $adapter->enqueueScript('media-upload')->shouldBeCalled();
-        $adapter->enqueueScript('thickbox')->shouldBeCalled();
-        $adapter->enqueueStyle('thickbox')->shouldBeCalled();
-        $adapter->action('admin_print_footer_scripts', Argument::any(), 1000)->shouldBeCalled();
-
-        $this->richText('rich');
-        $this->registerAndEnqueueAssets($adapter);
     }
 }
