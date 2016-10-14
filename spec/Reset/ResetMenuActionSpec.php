@@ -22,7 +22,6 @@ class ResetMenuActionSpec extends ObjectBehavior
         $adapter->removeMenuPage('edit.php?post_type=page')->shouldHaveBeenCalled();
         $adapter->removeMenuPage('edit-comments.php')->shouldHaveBeenCalled();
         $adapter->removeMenuPage('themes.php')->shouldHaveBeenCalled();
-        $adapter->removeMenuPage('tools.php')->shouldHaveBeenCalled();
         $adapter->removeMenuPage('options-general.php')->shouldHaveBeenCalled();
         $adapter->removeSubMenuPage('plugins.php', 'plugin-editor.php')->shouldHaveBeenCalled();
     }

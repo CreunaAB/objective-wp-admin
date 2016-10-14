@@ -119,9 +119,9 @@ class Schema
         $this->support('title');
     }
 
-    public function body(Editor $editor)
+    public function body(Editor $editor = null)
     {
-        $this->editor = $editor;
+        $this->editor = $editor ?: Editor::make();
         $this->support('editor');
     }
 

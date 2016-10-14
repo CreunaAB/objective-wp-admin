@@ -21,7 +21,7 @@ class RichTextField implements Field
     public function editor(Editor $editor = null)
     {
         if (!isset($editor)) {
-            return $this->editor ?: new Editor();
+            return $this->editor ?: Editor::make();
         }
         $this->editor = $editor;
         return $this;

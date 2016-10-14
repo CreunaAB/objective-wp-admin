@@ -19,13 +19,13 @@ class ResetMenuAction implements Action
         // $adapter->removeMenuPage('upload.php');                        // Media
         // $adapter->removeMenuPage('plugins.php');                       // Plugins
         // $adapter->removeMenuPage('users.php');                         // Users
+        // $adapter->removeMenuPage('tools.php');                         // Tools
 
         // Removed from the menu
         $adapter->removeMenuPage('edit.php');                             // Posts
         $adapter->removeMenuPage('edit.php?post_type=page');              // Pages
         $adapter->removeMenuPage('edit-comments.php');                    // Comments
         $adapter->removeMenuPage('themes.php');                           // Appearance
-        $adapter->removeMenuPage('tools.php');                            // Tools
         $adapter->removeMenuPage('options-general.php');                  // Settings
         $adapter->removeSubMenuPage('plugins.php', 'plugin-editor.php');  // Plugins > Editor
     }
