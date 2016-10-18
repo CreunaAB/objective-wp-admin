@@ -93,7 +93,7 @@ class MediaFieldView implements FieldView
                             }
 
                             frame = wp.media({
-                                title: 'Select or Upload Media Of Your Chosen Persuasion',
+                                title: 'Media Browser',
                                 button: {
                                     text: 'Use this media'
                                 },
