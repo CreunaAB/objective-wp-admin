@@ -9,7 +9,7 @@ class ResetMenuAction implements Action
 {
     public function event()
     {
-        return 'admin_init';
+        return 'admin_menu';
     }
 
     public function call(AdminAdapter $adapter, array $args)
