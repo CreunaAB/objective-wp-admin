@@ -29,12 +29,24 @@ class Repository
         $limit = isset($this->constraints['limit']) ? $this->constraints['limit'] : -1; // -1 returns all posts
         $offset = isset($this->constraints['offset']) ? $this->constraints['offset'] : 0;
         $where = isset($this->constraints['where']) ? $this->constraints['where'] : [];
+        $before = isset($this->constraints['before']) ? $this->constraints['before'] : null;
+        $after = isset($this->constraints['after']) ? $this->constraints['after'] : null;
 
         $args = [
             'posts_per_page' => $limit,
             'offset' => $offset,
             'post_type' => PostTypeUtils::postTypeName($this->type),
         ];
+
+        if (isset($before) || isset($after)) {
+            $args['date_query'] = [];
+        }
+        if (isset($before)) {
+            $args['date_query']['before'] = $before->format(DateTime::ISO8601);
+        }
+        if (isset($after)) {
+            $args['date_query']['after'] = $after->format(DateTime::ISO8601);
+        }
 
         if (count($where) > 0) {
             $args['meta_query'] = [ 'relation' => 'AND' ];
@@ -108,6 +120,20 @@ class Repository
     {
         $constraints = $this->constraints;
         $constraints['offset'] = $offset;
+        return new static($this->adapter, $this->type, $constraints);
+    }
+
+    public function before(DateTime $date)
+    {
+        $constraints = $this->constraints;
+        $constraints['before'] = $date;
+        return new static($this->adapter, $this->type, $constraints);
+    }
+
+    public function after(DateTime $date)
+    {
+        $constraints = $this->constraints;
+        $constraints['after'] = $date;
         return new static($this->adapter, $this->type, $constraints);
     }
 }

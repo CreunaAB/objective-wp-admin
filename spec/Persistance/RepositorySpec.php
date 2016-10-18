@@ -141,6 +141,55 @@ class RepositorySpec extends ObjectBehavior
             ->where('slug', '=', 'some-slug')
             ->all()->shouldReturn([]);
     }
+
+    function it_can_get_posts_before_a_specific_date(AdminAdapter $adapter)
+    {
+        $date = new DateTime();
+
+        $adapter->getPosts([
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'date_query' => [
+                'before' => $date->format(DateTime::ISO8601),
+            ],
+        ])->shouldBeCalled()->willReturn([]);
+
+        $this->before($date)->all()->shouldBe([]);
+    }
+
+    function it_can_get_posts_after_a_specific_date(AdminAdapter $adapter)
+    {
+        $date = new DateTime();
+
+        $adapter->getPosts([
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'date_query' => [
+                'after' => $date->format(DateTime::ISO8601),
+            ],
+        ])->shouldBeCalled()->willReturn([]);
+
+        $this->after($date)->all()->shouldBe([]);
+    }
+
+    function it_can_get_posts_from_within_a_specific_time_span(AdminAdapter $adapter)
+    {
+        $date = new DateTime();
+
+        $adapter->getPosts([
+            'posts_per_page' => -1,
+            'offset' => 0,
+            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'date_query' => [
+                'before' => $date->format(DateTime::ISO8601),
+                'after' => $date->format(DateTime::ISO8601),
+            ],
+        ])->shouldBeCalled()->willReturn([]);
+
+        $this->before($date)->after($date)->all()->shouldBe([]);
+    }
 }
 
 class MyPostType implements PostType
