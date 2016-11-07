@@ -23,7 +23,6 @@ class ResetToolbarAction implements Action
         $toolbar->remove_node('dashboard');
         $toolbar->remove_node('documentation');
         $toolbar->remove_node('feedback');
-        $toolbar->remove_node('menu-toggle');
         $toolbar->remove_node('new-content');
         $toolbar->remove_node('new-media');
         $toolbar->remove_node('new-page');
@@ -39,6 +38,7 @@ class ResetToolbarAction implements Action
         $toolbar->remove_node('wporg');
 
         // Default nodes still visible
+        // $toolbar->remove_node('menu-toggle');
         // $toolbar->remove_node('edit-profile');
         // $toolbar->remove_node('logout');
         // $toolbar->remove_node('my-account');
