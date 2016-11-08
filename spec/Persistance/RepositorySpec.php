@@ -28,7 +28,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype'
+            'post_type' => 'rsistance_myposttype'
         ])->shouldBeCalled()->willReturn([]);
 
         $this->all()->shouldReturn([]);
@@ -39,13 +39,13 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype'
+            'post_type' => 'rsistance_myposttype'
         ])->shouldBeCalled()->willReturn([
             (object) [
                 'ID' => 1,
                 'post_author' => 1,
                 'post_name' => 'some-slug',
-                'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+                'post_type' => 'rsistance_myposttype',
                 'post_title' => 'Some Title',
                 'post_date' => '2011-11-11 00:00:00',
                 'post_date_gmt' => '2011-11-11 00:00:00',
@@ -83,7 +83,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => 10,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype'
+            'post_type' => 'rsistance_myposttype'
         ])->shouldBeCalled()->willReturn([]);
 
         $this->take(10)->all()->shouldBe([]);
@@ -94,7 +94,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 10,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype'
+            'post_type' => 'rsistance_myposttype'
         ])->shouldBeCalled()->willReturn([]);
 
         $this->skip(10)->all()->shouldBe([]);
@@ -105,7 +105,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'post_type' => 'rsistance_myposttype',
             'meta_query' => [
                 'relation' => 'AND',
                 [
@@ -132,7 +132,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'post_type' => 'rsistance_myposttype',
             'meta_query' => [ 'relation' => 'AND' ],
             'name' => 'some-slug',
         ])->shouldBeCalled()->willReturn([]);
@@ -149,7 +149,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'post_type' => 'rsistance_myposttype',
             'date_query' => [
                 'before' => $date->format(DateTime::ISO8601),
             ],
@@ -165,7 +165,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'post_type' => 'rsistance_myposttype',
             'date_query' => [
                 'after' => $date->format(DateTime::ISO8601),
             ],
@@ -181,7 +181,7 @@ class RepositorySpec extends ObjectBehavior
         $adapter->getPosts([
             'posts_per_page' => -1,
             'offset' => 0,
-            'post_type' => 'spec_creuna_objectivewpadmin_persistance_myposttype',
+            'post_type' => 'rsistance_myposttype',
             'date_query' => [
                 'before' => $date->format(DateTime::ISO8601),
                 'after' => $date->format(DateTime::ISO8601),

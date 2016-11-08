@@ -68,7 +68,7 @@ class AdminSpec extends ObjectBehavior
     {
         $adapter->action('init', Argument::that(function ($callback) use ($adapter) {
             $adapter->registerPostType(
-                'spec_creuna_objectivewpadmin_test',
+                'bjectivewpadmin_test',
                 [
                     'labels' => [
                         'name' => 'Tests',
@@ -89,7 +89,7 @@ class AdminSpec extends ObjectBehavior
                     'supports' => false,
                     'rewrite' => [
                         'with_front' => false,
-                        'slug' => 'spec_creuna_objectivewpadmin_test',
+                        'slug' => 'bjectivewpadmin_test',
                         'feeds' => false,
                         'pages' => false,
                     ],
@@ -114,7 +114,7 @@ class AdminSpec extends ObjectBehavior
                 ob_start();
                 $post = new StdClass;
                 $post->ID = 1;
-                $post->post_type = 'spec_creuna_objectivewpadmin_test';
+                $post->post_type = 'bjectivewpadmin_test';
                 $callback($post);
                 $markup = ob_get_clean();
 
@@ -136,7 +136,7 @@ class AdminSpec extends ObjectBehavior
                 $_POST['custom_fieldName'] = 'value';
                 $post = new StdClass;
                 $post->ID = 1;
-                $post->post_type = 'spec_creuna_objectivewpadmin_test';
+                $post->post_type = 'bjectivewpadmin_test';
                 $adapter->getPost(1)->shouldBeCalled()->willReturn($post);
                 $adapter->setPostMeta(1, 'fieldName', 'value')->shouldBeCalled();
 
@@ -150,8 +150,8 @@ class AdminSpec extends ObjectBehavior
     private function postTypePermalinkActionShouldBeAdded(AdminAdapter $adapter)
     {
         $adapter->addPermastruct(
-            'spec_creuna_objectivewpadmin_test',
-            '/spec_creuna_objectivewpadmin_test/:id',
+            'bjectivewpadmin_test',
+            '/bjectivewpadmin_test/:id',
             [
                 'with_front' => false,
                 'feed' => false,
@@ -182,7 +182,7 @@ class AdminSpec extends ObjectBehavior
                     'ID' => 1,
                     'post_author' => 1,
                     'post_name' => 'some-slug',
-                    'post_type' => 'spec_creuna_objectivewpadmin_test',
+                    'post_type' => 'bjectivewpadmin_test',
                     'post_title' => 'Some Title',
                     'post_date' => '2011-11-11 00:00:00',
                     'post_date_gmt' => '2011-11-11 00:00:00',

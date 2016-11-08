@@ -12,7 +12,12 @@ class PostTypeUtils
 {
     public static function postTypeName(PostType $type)
     {
-        return strtolower(implode('_', explode('\\', get_class($type))));
+        $slug = strtolower(implode('_', explode('\\', get_class($type))));
+        $length = strlen($slug);
+        if ($length > 20) {
+            return substr($slug, $length - 20);
+        }
+        return $slug;
     }
 
     public static function parsePost(AdminAdapter $adapter, PostType $type, $post)

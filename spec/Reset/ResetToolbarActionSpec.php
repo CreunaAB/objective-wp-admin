@@ -25,7 +25,6 @@ class ResetToolbarActionSpec extends ObjectBehavior
         $toolbar->remove_node('dashboard')->shouldHaveBeenCalled();
         $toolbar->remove_node('documentation')->shouldHaveBeenCalled();
         $toolbar->remove_node('feedback')->shouldHaveBeenCalled();
-        $toolbar->remove_node('menu-toggle')->shouldHaveBeenCalled();
         $toolbar->remove_node('new-content')->shouldHaveBeenCalled();
         $toolbar->remove_node('new-media')->shouldHaveBeenCalled();
         $toolbar->remove_node('new-page')->shouldHaveBeenCalled();
