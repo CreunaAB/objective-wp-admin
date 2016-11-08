@@ -44,6 +44,7 @@ class PostTypeRegisterAction implements Action
                     'feeds' => false,
                     'pages' => false,
                 ],
+                'menu_icon' => $schema->icon(),
             ]
         );
     }

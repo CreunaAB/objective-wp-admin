@@ -2,13 +2,14 @@
 
 namespace spec\Creuna\ObjectiveWpAdmin\Persistance;
 
+use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Icons\Dashicon;
 use Creuna\ObjectiveWpAdmin\Persistance\Field;
+use Creuna\ObjectiveWpAdmin\Persistance\Fields\Editor;
 use Creuna\ObjectiveWpAdmin\Persistance\Fields\StringField;
 use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Creuna\ObjectiveWpAdmin\AdminAdapter;
-use Creuna\ObjectiveWpAdmin\Persistance\Fields\Editor;
 
 class SchemaSpec extends ObjectBehavior
 {
@@ -118,5 +119,12 @@ class SchemaSpec extends ObjectBehavior
             'insert_into_item' => 'Insert into thing',
             'uploaded_to_this_item' => 'Uploaded to this thing',
         ]);
+    }
+
+    function it_can_choose_a_menu_icon()
+    {
+        $this->icon()->shouldBe('dashicons-admin-post');
+        $this->icon(Dashicon::VIDEO_ALT_2);
+        $this->icon()->shouldBe('dashicons-video-alt2');
     }
 }

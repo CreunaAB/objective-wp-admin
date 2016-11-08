@@ -93,6 +93,7 @@ class AdminSpec extends ObjectBehavior
                         'feeds' => false,
                         'pages' => false,
                     ],
+                    'menu_icon' => 'dashicons-admin-post',
                 ]
             )->shouldBeCalled();
 

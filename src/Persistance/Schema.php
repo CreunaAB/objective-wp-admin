@@ -49,6 +49,7 @@ class Schema
         // 'items_list'
         // 'name_admin_bar'
     ];
+    protected $icon = 'dashicons-admin-post';
 
     public function labels(array $labels = null)
     {
@@ -169,5 +170,14 @@ class Schema
         foreach ($this->fields() as $field) {
             $field->view()->assets($adapter);
         }
+    }
+
+    public function icon($value = null)
+    {
+        if (isset($value)) {
+            $this->icon = $value;
+            return $this;
+        }
+        return $this->icon;
     }
 }
