@@ -109,6 +109,14 @@ class Admin
         return new Repository($this->adapter, new $type);
     }
 
+    /**
+     * Gets the post type class name from an object, which can either be
+     * a WP_Post or a dynamic object created from a repository before.
+     *
+     * @param WP_Post|DynamicObject $post
+     *
+     * @return string
+     */
     public function typeOf($post)
     {
         if ($post instanceof \WP_Post) {
