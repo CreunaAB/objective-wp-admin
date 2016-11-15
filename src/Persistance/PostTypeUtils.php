@@ -28,6 +28,7 @@ class PostTypeUtils
             'createdAt' => new DateTime($post->post_date_gmt),
             'updatedAt' => new DateTime($post->post_modified_gmt),
             'status' => $post->post_status,
+            '_type' => get_class($type),
         ];
 
         $schema = new Schema;
