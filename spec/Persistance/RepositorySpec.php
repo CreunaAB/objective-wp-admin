@@ -74,6 +74,7 @@ class RepositorySpec extends ObjectBehavior
                 'updatedAt' => new DateTime('2011-11-11 00:00:00'),
                 'status' => 'publish',
                 'someField' => 'value',
+                '_type' => MyPostType::class,
             ]),
         ]);
     }

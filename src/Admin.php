@@ -5,6 +5,7 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
+use Creuna\ObjectiveWpAdmin\Persistance\PostTypeUtils;
 use Creuna\ObjectiveWpAdmin\Persistance\Repository;
 use Exception;
 
@@ -12,6 +13,7 @@ class Admin
 {
     protected $adapter;
     protected $hooks = [];
+    protected $types = [];
 
     public function __construct(AdminAdapter $adapter)
     {
@@ -91,6 +93,7 @@ class Admin
         $this->hook(new Persistance\PostTypePermalinkAction($postType));
         $this->hook(new Persistance\PostTypePermalinkFilter($postType));
         $this->hook(new Persistance\PostTypeCustomizeEditorFilter($postType));
+        $this->types[] = $postType;
     }
 
     /**
@@ -104,5 +107,18 @@ class Admin
     public function repository($type)
     {
         return new Repository($this->adapter, new $type);
+    }
+
+    public function typeOf($post)
+    {
+        if ($post instanceof \WP_Post) {
+            foreach ($this->types as $type) {
+                if ($post->post_type === PostTypeUtils::postTypeName($type)) {
+                    return get_class($type);
+                }
+            }
+            throw new Exception("No registered type that match the slug '{$post->post_type}'");
+        }
+        return $post->_type;
     }
 }

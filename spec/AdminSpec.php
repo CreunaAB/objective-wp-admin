@@ -7,6 +7,7 @@ use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Persistance\PostType;
+use Creuna\ObjectiveWpAdmin\Persistance\PostTypeUtils;
 use Creuna\ObjectiveWpAdmin\Persistance\Repository;
 use Creuna\ObjectiveWpAdmin\Persistance\Schema;
 use PhpSpec\ObjectBehavior;
@@ -220,6 +221,25 @@ class AdminSpec extends ObjectBehavior
     function it_creates_repositories_for_post_types(AdminAdapter $adapter)
     {
         $this->repository(Test::class)->shouldHaveType(Repository::class);
+    }
+
+    function it_can_get_the_type_of_a_post()
+    {
+        $post = (object) [
+            '_type' => Test::class,
+        ];
+
+        $this->typeOf($post)->shouldBe(Test::class);
+    }
+
+    function it_can_get_the_type_of_a_wp_post()
+    {
+        $this->registerType(Test::class);
+        require_once(__DIR__.'/WPPostShim.php');
+        $post = new \WP_Post;
+        $post->post_type = PostTypeUtils::postTypeName(new Test);
+
+        $this->typeOf($post)->shouldBe(Test::class);
     }
 }
 
