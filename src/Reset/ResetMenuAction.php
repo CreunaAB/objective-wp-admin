@@ -4,12 +4,13 @@ namespace Creuna\ObjectiveWpAdmin\Reset;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
+use Creuna\ObjectiveWpAdmin\Hooks\Event;
 
 class ResetMenuAction implements Action
 {
     public function event()
     {
-        return 'admin_menu';
+        return Event::adminMenu();
     }
 
     public function call(AdminAdapter $adapter, array $args)

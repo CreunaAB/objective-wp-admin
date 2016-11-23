@@ -10,8 +10,9 @@ interface AdminAdapter
      * @param string   $hook     The id of the hook.
      * @param callback $callback The listener.
      * @param int      $priority The priority of the hook.
+     * @param int      $arity    The arity of the callback.
      */
-    public function action($hook, callable $callback, $priority);
+    public function action($hook, callable $callback, $priority, $arity);
 
     /**
      * Adds a filter hook to the system.
@@ -19,8 +20,9 @@ interface AdminAdapter
      * @param string   $hook     The id of the hook.
      * @param callback $callback The listener.
      * @param int      $priority The priority of the hook.
+     * @param int      $arity    The arity of the callback.
      */
-    public function filter($hook, callable $callback, $priority);
+    public function filter($hook, callable $callback, $priority, $arity);
 
     /**
      * Applies a filter to some variable.

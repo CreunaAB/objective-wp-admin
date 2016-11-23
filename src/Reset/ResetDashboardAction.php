@@ -4,12 +4,13 @@ namespace Creuna\ObjectiveWpAdmin\Reset;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
+use Creuna\ObjectiveWpAdmin\Hooks\Event;
 
 class ResetDashboardAction implements Action
 {
     public function event()
     {
-        return 'wp_dashboard_setup';
+        return Event::dashboardSetup();
     }
 
     public function call(AdminAdapter $admin, array $args)
