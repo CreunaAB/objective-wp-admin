@@ -121,6 +121,26 @@ class SchemaSpec extends ObjectBehavior
         ]);
     }
 
+    function it_handles_words_ending_with_a_y_differently()
+    {
+        $this->autoLabels('Category');
+        $this->labels()->shouldBe([
+            'name' => 'Categories',
+            'singular_name' => 'Category',
+            'add_new_item' => 'Add New Category',
+            'edit_item' => 'Edit Category',
+            'new_item' => 'New Category',
+            'view_item' => 'View Category',
+            'search_items' => 'Search Categories',
+            'not_found' => 'No categories found',
+            'not_found_in_trash' => 'No categories found in trash',
+            'all_items' => 'All Categories',
+            'archives' => 'Category Archives',
+            'insert_into_item' => 'Insert into category',
+            'uploaded_to_this_item' => 'Uploaded to this category',
+        ]);
+    }
+
     function it_can_choose_a_menu_icon()
     {
         $this->icon()->shouldBe('dashicons-admin-post');

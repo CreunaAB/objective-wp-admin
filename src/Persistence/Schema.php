@@ -145,6 +145,7 @@ class Schema
     {
         $ucSingular = $title;
         $ucPlural = "{$title}s";
+        $ucPlural = preg_replace('/ys$/', 'ies', $ucPlural);
         $lcSingular = strtolower($ucSingular);
         $lcPlural = strtolower($ucPlural);
 
