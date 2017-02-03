@@ -39,7 +39,7 @@ class Admin
         // and add our own hooks at that point.
         $this->adapter->action('init', function () {
             $this->execute();
-        }, 1);
+        }, 1, 0);
 
         $this->hook(new Reset\ResetToolbarAction);
         $this->hook(new Reset\ResetDashboardAction);
