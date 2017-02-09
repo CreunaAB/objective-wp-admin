@@ -20,12 +20,12 @@ use wp_enqueue_style;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
-    public function action($hook, callable $callback, $priority, $arity)
+    public function action($hook, callable $callback, $priority, $arity = 0)
     {
         add_action($hook, $callback, $priority, $arity);
     }
 
-    public function filter($hook, callable $callback, $priority, $arity)
+    public function filter($hook, callable $callback, $priority, $arity = 0)
     {
         add_filter($hook, $callback, $priority, $arity);
     }
