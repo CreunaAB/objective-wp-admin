@@ -47,9 +47,12 @@ class PostTypeSaveAction implements Action
                 continue;
             }
 
-            $newValue = $field->view($this->admin)->parseValue($_POST[$fieldFormName]);
+            $view = $field->view($this->admin);
 
-            $adapter->setPostMeta($post->ID, $fieldName, $newValue);
+            $parsed = $view->parseValue($_POST[$fieldFormName]);
+            $serial = $field->serialize($parsed);
+
+            $adapter->setPostMeta($post->ID, $fieldName, $serial);
         }
     }
 }

@@ -48,6 +48,8 @@ class PostTypeEditPageAction implements Action
             $value = $adapter->getPostMeta($post->ID, $field->name(), true);
             if ($value === '') {
                 $value = $field->defaults();
+            } else {
+                $value = $field->deserialize($value);
             }
             if (is_array($value)) {
                 return $view->render(array_map('htmlspecialchars', $value));

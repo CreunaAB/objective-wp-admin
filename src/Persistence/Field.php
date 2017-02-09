@@ -50,10 +50,18 @@ interface Field
     public function holdsArray();
 
     /**
-     * Transform the value before export.
+     * Serialize a value to something that can be saved the the DB.
      *
-     * @param  mixed $value The raw field value.
+     * @param  mixed $value
      * @return mixed
      */
-    public function export($value);
+    public function serialize($value);
+
+    /**
+     * Deserialize a value from its DB representation.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
+    public function deserialize($value);
 }

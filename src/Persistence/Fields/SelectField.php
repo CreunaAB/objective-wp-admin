@@ -62,11 +62,16 @@ class SelectField implements Field
         return $this->multiple;
     }
 
-    public function export($value)
+    public function serialize($value)
     {
         if ($this->multiple && $value == null) {
             return '[]';
         }
         return json_encode($value);
+    }
+
+    public function deserialize($value)
+    {
+        return json_decode($value);
     }
 }

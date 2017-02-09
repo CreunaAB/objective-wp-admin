@@ -29,7 +29,7 @@ class MediaField implements Field
         return $this->multiple;
     }
 
-    public function export($value)
+    public function deserialize($value)
     {
         if ($this->holdsArray()) {
             return array_map([$this, 'getSrc'], $value);

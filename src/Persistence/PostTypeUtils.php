@@ -48,7 +48,7 @@ class PostTypeUtils
             if ($value === '') {
                 $value = $field->defaults();
             }
-            $fields[$name] = $field->export($value);
+            $fields[$name] = $field->deserialize($value);
         }
 
         return new DynamicObject($fields);

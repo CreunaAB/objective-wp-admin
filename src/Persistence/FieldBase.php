@@ -52,7 +52,12 @@ trait FieldBase
         return false;
     }
 
-    public function export($value)
+    public function serialize($value)
+    {
+        return $value;
+    }
+
+    public function deserialize($value)
     {
         return $value;
     }
