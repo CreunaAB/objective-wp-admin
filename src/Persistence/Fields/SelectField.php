@@ -4,6 +4,7 @@ namespace Creuna\ObjectiveWpAdmin\Persistence\Fields;
 
 use Creuna\ObjectiveWpAdmin\Persistence\Field;
 use Creuna\ObjectiveWpAdmin\Persistence\FieldBase;
+use Creuna\ObjectiveWpAdmin\Admin;
 
 class SelectField implements Field
 {
@@ -12,10 +13,12 @@ class SelectField implements Field
     protected $options = [];
     protected $multiple = false;
     protected $defaultValue = null;
+    protected $relatedPostType = null;
+    protected $relatedPostTypeTitleField = 'title';
 
-    public function view()
+    public function view(Admin $admin)
     {
-        return new SelectFieldView($this);
+        return new SelectFieldView($this, $admin);
     }
 
     public function option($name, $value = null)
@@ -27,8 +30,23 @@ class SelectField implements Field
         return $this;
     }
 
-    public function options()
+    public function from($postType, $titleField = 'title')
     {
+        $this->relatedPostType = $postType;
+        $this->relatedPostTypeTitleField = $titleField;
+
+        return $this;
+    }
+
+    public function options(Admin $admin)
+    {
+        if (isset($this->relatedPostType)) {
+            $related = $admin->repository($this->relatedPostType)->all();
+
+            foreach ($related as $object) {
+                $this->options[$object->id] = $object->{$this->relatedPostTypeTitleField};
+            }
+        }
         return $this->options;
     }
 

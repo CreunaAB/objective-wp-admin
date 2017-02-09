@@ -100,7 +100,7 @@ class Admin
     {
         $postType = new $type;
         $this->hook(new Persistence\PostTypeRegisterAction($postType));
-        $this->hook(new Persistence\PostTypeEditPageAction($postType));
+        $this->hook(new Persistence\PostTypeEditPageAction($postType, $this));
         $this->hook(new Persistence\PostTypeSaveAction($postType));
         $this->hook(new Persistence\PostTypePermalinkAction($postType));
         $this->hook(new Persistence\PostTypePermalinkFilter($postType));

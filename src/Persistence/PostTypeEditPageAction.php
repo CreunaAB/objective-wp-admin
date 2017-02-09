@@ -7,14 +7,17 @@ use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Event;
 use Creuna\ObjectiveWpAdmin\Persistence\PostType;
 use Creuna\ObjectiveWpAdmin\Persistence\Schema;
+use Creuna\ObjectiveWpAdmin\Admin;
 
 class PostTypeEditPageAction implements Action
 {
     protected $type;
+    protected $admin;
 
-    public function __construct(PostType $type)
+    public function __construct(PostType $type, Admin $admin)
     {
         $this->type = $type;
+        $this->admin = $admin;
     }
 
     public function event()
@@ -41,7 +44,7 @@ class PostTypeEditPageAction implements Action
         $schema->registerAndEnqueueAssets($adapter);
 
         $widgets = array_map(function ($field) use ($adapter, $post) {
-            $view = $field->view();
+            $view = $field->view($this->admin);
             $value = $adapter->getPostMeta($post->ID, $field->name(), true);
             if ($value === '') {
                 $value = $field->defaults();

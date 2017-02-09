@@ -4,14 +4,17 @@ namespace Creuna\ObjectiveWpAdmin\Persistence\Fields;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Persistence\FieldView;
+use Creuna\ObjectiveWpAdmin\Admin;
 
 class SelectFieldView implements FieldView
 {
     protected $field;
+    protected $admin;
 
-    public function __construct(SelectField $field)
+    public function __construct(SelectField $field, Admin $admin)
     {
         $this->field = $field;
+        $this->admin = $admin;
     }
 
     public function render($value)
@@ -50,7 +53,7 @@ class SelectFieldView implements FieldView
         if (!is_array($active)) {
             $active = [$active];
         }
-        $options = $this->field->options();
+        $options = $this->field->options($this->admin);
         $options = array_map(function ($name) use ($options, $active) {
             $value = $options[$name];
             $selected = in_array($name, $active) ? 'selected="selected"' : '';
