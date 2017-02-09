@@ -65,8 +65,8 @@ class SelectField implements Field
     public function export($value)
     {
         if ($this->multiple && $value == null) {
-            return [];
+            return '[]';
         }
-        return $value;
+        return json_encode($value);
     }
 }
