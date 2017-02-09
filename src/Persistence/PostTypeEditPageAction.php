@@ -51,10 +51,7 @@ class PostTypeEditPageAction implements Action
             } else {
                 $value = $field->deserialize($value);
             }
-            if (is_array($value)) {
-                return $view->render(array_map('htmlspecialchars', $value));
-            }
-            return $view->render(htmlspecialchars($value));
+            return $view->render($this->escape($value));
         }, $schema->fields());
 
         $rows = implode('', $widgets);
@@ -66,5 +63,18 @@ class PostTypeEditPageAction implements Action
                 </tbody>
             </table>
         ";
+    }
+
+    private function escape($value)
+    {
+        if (is_array($value)) {
+            return array_map([$this, 'escape'], $value);
+        }
+
+        if (is_string($value)) {
+            return htmlspecialchars($value);
+        }
+
+        return $value;
     }
 }
