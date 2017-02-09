@@ -29,8 +29,14 @@ class MediaField implements Field
         return $this->multiple;
     }
 
+    public function serialize($value)
+    {
+        return json_encode($value);
+    }
+
     public function deserialize($value)
     {
+        $value = json_decode($value);
         if ($this->holdsArray()) {
             return array_map([$this, 'getSrc'], $value);
         }
@@ -46,7 +52,11 @@ class MediaField implements Field
 
     private function getSrc($id)
     {
-        return function ($size) use ($id) {
+        return function ($size = null) use ($id) {
+            if (!isset($size)) {
+                return $id;
+            }
+
             // Try to get the downsized version of this image
             $image = image_downsize($id, $size);
 

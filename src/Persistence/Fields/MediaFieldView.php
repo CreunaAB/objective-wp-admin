@@ -22,10 +22,10 @@ class MediaFieldView implements FieldView
             $value = $value === '' ? [] : [$value];
         }
 
-        $items = array_map(function ($id) {
+        $items = array_map(function ($fun) {
             return (object) [
-                'id' => $id,
-                'url' => $this->src($id),
+                'id' => $fun(),
+                'url' => $fun([300, 300]),
             ];
         }, $value);
 
