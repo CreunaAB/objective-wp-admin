@@ -3,6 +3,7 @@
 namespace Creuna\ObjectiveWpAdmin\Persistence;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Admin;
 use Creuna\ObjectiveWpAdmin\Persistence\Fields\Editor;
 
 class Schema

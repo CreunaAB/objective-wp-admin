@@ -3,6 +3,7 @@
 namespace Creuna\ObjectiveWpAdmin\Persistence;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Admin;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Event;
 use Exception;
@@ -10,10 +11,12 @@ use Exception;
 class PostTypeSaveAction implements Action
 {
     protected $type;
+    protected $admin;
 
-    public function __construct(PostType $type)
+    public function __construct(PostType $type, Admin $admin)
     {
         $this->type = $type;
+        $this->admin = $admin;
     }
 
     public function event()
@@ -44,7 +47,7 @@ class PostTypeSaveAction implements Action
                 continue;
             }
 
-            $newValue = $field->view()->parseValue($_POST[$fieldFormName]);
+            $newValue = $field->view($this->admin)->parseValue($_POST[$fieldFormName]);
 
             $adapter->setPostMeta($post->ID, $fieldName, $newValue);
         }
