@@ -68,7 +68,7 @@ class SelectFieldView implements FieldView
 
     public function parseValue($value)
     {
-        return $value;
+        return json_decode($value);
     }
 
     public function assets(AdminAdapter $adapter)
