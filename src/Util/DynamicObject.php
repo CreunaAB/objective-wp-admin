@@ -26,13 +26,19 @@ class DynamicObject implements JsonSerializable
         return $this->fields[$field];
     }
 
+    public function __isset($field)
+    {
+        return isset($this->fields[$field]);
+    }
+
     public function __call($method, $args)
     {
         $callback = $this->methods[$method];
         return $callback(...$args);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return $this->fields;
     }
 }
