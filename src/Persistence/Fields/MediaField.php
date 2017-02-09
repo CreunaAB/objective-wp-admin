@@ -36,11 +36,7 @@ class MediaField implements Field
 
     public function deserialize($value)
     {
-        if (!(
-            is_array($value) ||
-            is_string($value) &&
-            strpos($value, '"') !== 0
-        )) {
+        if (!is_array($value)) {
             $value = json_decode($value);
         }
 

@@ -75,9 +75,6 @@ class SelectField implements Field
         if (is_array($value)) {
             return $value;
         }
-        if (is_string($value) && strpos($value, '"') !== 0) {
-            return $value;
-        }
         return json_decode($value);
     }
 }
