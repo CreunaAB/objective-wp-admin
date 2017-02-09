@@ -5,6 +5,7 @@ namespace Creuna\ObjectiveWpAdmin\Persistence\Fields;
 use Creuna\ObjectiveWpAdmin\Persistence\Field;
 use Creuna\ObjectiveWpAdmin\Persistence\FieldBase;
 use Creuna\ObjectiveWpAdmin\Persistence\Fields\Editor;
+use Creuna\ObjectiveWpAdmin\Admin;
 
 class RichTextField implements Field
 {
@@ -13,7 +14,7 @@ class RichTextField implements Field
     protected $defaultValue = '';
     protected $editor;
 
-    public function view()
+    public function view(Admin $admin)
     {
         return new RichTextFieldView($this);
     }

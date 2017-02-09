@@ -166,10 +166,10 @@ class Schema
         ]);
     }
 
-    public function registerAndEnqueueAssets(AdminAdapter $adapter)
+    public function registerAndEnqueueAssets(AdminAdapter $adapter, Admin $admin)
     {
         foreach ($this->fields() as $field) {
-            $field->view()->assets($adapter);
+            $field->view($admin)->assets($adapter);
         }
     }
 

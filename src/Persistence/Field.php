@@ -3,6 +3,7 @@
 namespace Creuna\ObjectiveWpAdmin\Persistence;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Admin;
 
 interface Field
 {
@@ -10,9 +11,12 @@ interface Field
      * Instantiates the FieldView that will handle
      * the Field's UI.
      *
+     * @param Admin $admin - Can be used by the field
+     *                       to resolve relationships.
+     *
      * @return FieldView
      */
-    public function view();
+    public function view(Admin $admin);
 
     /**
      * Returns the name of the field.

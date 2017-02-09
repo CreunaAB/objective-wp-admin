@@ -41,7 +41,7 @@ class PostTypeEditPageAction implements Action
             return;
         }
 
-        $schema->registerAndEnqueueAssets($adapter);
+        $schema->registerAndEnqueueAssets($adapter, $this->admin);
 
         $widgets = array_map(function ($field) use ($adapter, $post) {
             $view = $field->view($this->admin);
