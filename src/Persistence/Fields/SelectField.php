@@ -72,6 +72,12 @@ class SelectField implements Field
 
     public function deserialize($value)
     {
+        if (is_array($value)) {
+            return $value;
+        }
+        if (is_string($value) && strpos($value, '"') !== 0) {
+            return $value;
+        }
         return json_decode($value);
     }
 }
