@@ -44,7 +44,8 @@ class SelectField implements Field
             $related = $admin->repository($this->relatedPostType)->all();
 
             foreach ($related as $object) {
-                $this->options[$object->id] = $object->{$this->relatedPostTypeTitleField};
+                $id = isset($object->slug) ? $object->slug : $object->id;
+                $this->options[$id] = $object->{$this->relatedPostTypeTitleField};
             }
         }
         return $this->options;
