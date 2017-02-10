@@ -45,7 +45,9 @@ class MediaField implements Field
         }
         if (is_array($value)) {
             if (count($value) === 0) {
-                $value = null;
+                return function () {
+                    return null;
+                };
             } else {
                 $value = $value[0];
             }

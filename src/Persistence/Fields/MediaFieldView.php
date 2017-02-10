@@ -19,7 +19,7 @@ class MediaFieldView implements FieldView
         global $post;
 
         if (!is_array($value)) {
-            $value = $value === '' ? [] : [$value];
+            $value = is_callable($value) && null !== $value() ? [$value] : [];
         }
 
         $items = array_map(function ($fun) {
