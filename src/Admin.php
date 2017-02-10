@@ -5,8 +5,8 @@ namespace Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
 use Creuna\ObjectiveWpAdmin\Hooks\Hook;
-use Creuna\ObjectiveWpAdmin\Persistance\PostTypeUtils;
-use Creuna\ObjectiveWpAdmin\Persistance\Repository;
+use Creuna\ObjectiveWpAdmin\Persistence\PostTypeUtils;
+use Creuna\ObjectiveWpAdmin\Persistence\Repository;
 use Exception;
 
 class Admin
@@ -39,7 +39,7 @@ class Admin
         // and add our own hooks at that point.
         $this->adapter->action('init', function () {
             $this->execute();
-        }, 1);
+        }, 1, 0);
 
         $this->hook(new Reset\ResetToolbarAction);
         $this->hook(new Reset\ResetDashboardAction);
@@ -64,10 +64,22 @@ class Admin
                 ? $hook->priority
                 : 1000;
 
+            $event = $hook->event();
+
             if ($hook instanceof Filter) {
-                $this->adapter->filter($hook->event(), $callback, $priority);
+                $this->adapter->filter(
+                    $event->name,
+                    $callback,
+                    $priority,
+                    $event->arity
+                );
             } elseif ($hook instanceof Action) {
-                $this->adapter->action($hook->event(), $callback, $priority);
+                $this->adapter->action(
+                    $event->name,
+                    $callback,
+                    $priority,
+                    $event->arity
+                );
             } else {
                 throw new Exception(get_class($hook).' is neither an action nor a filter.');
             }
@@ -87,12 +99,12 @@ class Admin
     public function registerType($type)
     {
         $postType = new $type;
-        $this->hook(new Persistance\PostTypeRegisterAction($postType));
-        $this->hook(new Persistance\PostTypeEditPageAction($postType));
-        $this->hook(new Persistance\PostTypeSaveAction($postType));
-        $this->hook(new Persistance\PostTypePermalinkAction($postType));
-        $this->hook(new Persistance\PostTypePermalinkFilter($postType));
-        $this->hook(new Persistance\PostTypeCustomizeEditorFilter($postType));
+        $this->hook(new Persistence\PostTypeRegisterAction($postType));
+        $this->hook(new Persistence\PostTypeEditPageAction($postType, $this));
+        $this->hook(new Persistence\PostTypeSaveAction($postType, $this));
+        $this->hook(new Persistence\PostTypePermalinkAction($postType));
+        $this->hook(new Persistence\PostTypePermalinkFilter($postType));
+        $this->hook(new Persistence\PostTypeCustomizeEditorFilter($postType));
         $this->types[] = $postType;
     }
 

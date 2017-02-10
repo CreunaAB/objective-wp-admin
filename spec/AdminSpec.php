@@ -5,11 +5,12 @@ namespace spec\Creuna\ObjectiveWpAdmin;
 use Creuna\ObjectiveWpAdmin\Admin;
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
+use Creuna\ObjectiveWpAdmin\Hooks\Event;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
-use Creuna\ObjectiveWpAdmin\Persistance\PostType;
-use Creuna\ObjectiveWpAdmin\Persistance\PostTypeUtils;
-use Creuna\ObjectiveWpAdmin\Persistance\Repository;
-use Creuna\ObjectiveWpAdmin\Persistance\Schema;
+use Creuna\ObjectiveWpAdmin\Persistence\PostType;
+use Creuna\ObjectiveWpAdmin\Persistence\PostTypeUtils;
+use Creuna\ObjectiveWpAdmin\Persistence\Repository;
+use Creuna\ObjectiveWpAdmin\Persistence\Schema;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use StdClass;
@@ -35,7 +36,7 @@ class AdminSpec extends ObjectBehavior
         $adapter->action(
             'init', Argument::that(function ($callback) {
                 return $callback() == 'result of calling TestAction::call';
-            }), 1000
+            }), 1000, 0
         )->shouldHaveBeenCalled();
     }
 
@@ -48,7 +49,7 @@ class AdminSpec extends ObjectBehavior
         $adapter->filter(
             'filter_name', Argument::that(function ($callback) {
                 return $callback() == 'result of calling TestFilter::call';
-            }), 1000
+            }), 1000, 0
         )->shouldHaveBeenCalled();
     }
 
@@ -101,7 +102,7 @@ class AdminSpec extends ObjectBehavior
             $callback();
 
             return true;
-        }), 1000)->shouldBeCalled();
+        }), 1000, 0)->shouldBeCalled();
     }
 
     private function postTypeEditPageActionShouldBeAdded(AdminAdapter $adapter)
@@ -126,7 +127,8 @@ class AdminSpec extends ObjectBehavior
                     "value='xyz'"
                 ) !== false;
             }),
-            1000
+            1000,
+            1
         )->shouldBeCalled();
     }
 
@@ -145,7 +147,8 @@ class AdminSpec extends ObjectBehavior
                 $callback(1);
                 return true;
             }),
-            1000
+            1000,
+            3
         )->shouldBeCalled();
     }
 
@@ -167,7 +170,8 @@ class AdminSpec extends ObjectBehavior
                 $callback();
                 return true;
             }),
-            1000
+            1000,
+            0
         )->shouldBeCalled();
     }
 
@@ -205,7 +209,8 @@ class AdminSpec extends ObjectBehavior
                 $output = 'http://example.com/1/some-slug/2011-11-11/2011-11-11/publish/xyz';
                 return $callback($input, $post, false) === $output;
             }),
-            1000
+            1000,
+            4
         )->shouldBeCalled();
     }
 
@@ -214,7 +219,8 @@ class AdminSpec extends ObjectBehavior
         $adapter->filter(
             'wp_editor_settings',
             Argument::any(),
-            1000
+            1000,
+            2
         )->shouldBeCalled();
     }
 
@@ -247,7 +253,7 @@ class TestAction implements Action
 {
     public function event()
     {
-        return 'init';
+        return Event::init();
     }
 
     public function call(AdminAdapter $adapter, array $args)
@@ -260,7 +266,7 @@ class TestFilter implements Filter
 {
     public function event()
     {
-        return 'filter_name';
+        return new Event('filter_name', 0);
     }
 
     public function call(AdminAdapter $adapter, array $args)
