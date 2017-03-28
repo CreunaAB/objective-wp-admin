@@ -45,6 +45,17 @@ interface AdminAdapter
     public function removeMenuPage($id);
 
     /**
+     * Adds a menu page.
+     *
+     * @param string   $pageTitle  The <title> of the page.
+     * @param string   $menuTitle  The title of the menu item.
+     * @param string   $capability The user capabilities needed to view the page.
+     * @param string   $id         The identifier of the menu page. Like a slug.
+     * @param callable $callback   The function which outputs the contents of the page.
+     */
+    public function addMenuPage($pageTitle, $menuTitle, $capability, $id, $callback);
+
+    /**
      * Removes a sub menu page.
      *
      * @see src/Reset/ResetMenuHook.php
@@ -154,4 +165,27 @@ interface AdminAdapter
      * @param string $id The unique id of the stylesheet to include on the page.
      */
     public function enqueueStyle($id);
+
+    /**
+     * Gets a global option by key from the database.
+     *
+     * @see https://developer.wordpress.org/reference/functions/get_option
+     *
+     * @param string   $key        The key of the option.
+     * @param mixed    [$default]  A default value to return if the options is not set.
+     *
+     * @return mixed
+     */
+    public function getOption($key, $default = null);
+
+    /**
+     * Sets a global option by key from the database.
+     *
+     * @see https://developer.wordpress.org/reference/functions/update_option
+     *
+     * @param string   $key   The key of the option.
+     * @param mixed    $value The value to store.
+     * @param boolean  [$autoload] Whether or not to eager load the option on each request.
+     */
+    public function setOption($key, $value, $autoload = false);
 }

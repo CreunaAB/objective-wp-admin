@@ -8,10 +8,12 @@ use Creuna\ObjectiveWpAdmin\Hooks\Hook;
 use Creuna\ObjectiveWpAdmin\Persistence\PostTypeUtils;
 use Creuna\ObjectiveWpAdmin\Persistence\Repository;
 use Exception;
+use Creuna\ObjectiveWpAdmin\Pages\Page;
+use Creuna\ObjectiveWpAdmin\Slugify;
 
 class Admin
 {
-    protected $adapter;
+    public $adapter;
     protected $hooks = [];
     protected $types = [];
 
@@ -140,5 +142,10 @@ class Admin
             throw new Exception("No registered type that match the slug '{$post->post_type}'");
         }
         return $post->_type;
+    }
+
+    public function registerPage(Page $page)
+    {
+        $this->hook(new Pages\AddMenuPageAction($page));
     }
 }
