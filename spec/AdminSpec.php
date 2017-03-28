@@ -7,6 +7,7 @@ use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Hooks\Action;
 use Creuna\ObjectiveWpAdmin\Hooks\Event;
 use Creuna\ObjectiveWpAdmin\Hooks\Filter;
+use Creuna\ObjectiveWpAdmin\Pages\Page;
 use Creuna\ObjectiveWpAdmin\Persistence\PostType;
 use Creuna\ObjectiveWpAdmin\Persistence\PostTypeUtils;
 use Creuna\ObjectiveWpAdmin\Persistence\Repository;
@@ -246,6 +247,68 @@ class AdminSpec extends ObjectBehavior
         $post->post_type = PostTypeUtils::postTypeName(new Test);
 
         $this->typeOf($post)->shouldBe(Test::class);
+    }
+
+    function it_registers_a_static_page(AdminAdapter $adapter)
+    {
+        $page = new TestPage;
+        $this->registerPage($page);
+
+        $adapter->action(
+            'admin_menu',
+            Argument::that(function ($callback) use ($adapter, $page) {
+                $adapter->addMenuPage(
+                    'Test Page',
+                    'Test Page',
+                    'manage_options',
+                    'tivewpadmin_testpage',
+                    Argument::that(function ($render) use ($page) {
+                        $_GET = ['key' => 'value', 'method' => 'GET'];
+                        $_POST = ['key' => 'value', 'method' => 'POST'];
+
+                        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+                        ob_start();
+                        $render();
+                        $whenGet = ob_get_clean();
+                        $worksWithGet = $whenGet === $page->get($_GET);
+
+                        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+                        ob_start();
+                        $render();
+                        $whenPost = ob_get_clean();
+                        $worksWithPost = $whenPost === $page->post($_POST);
+
+                        return $worksWithGet && $worksWithPost;
+                    })
+                )->shouldBeCalled();
+                $callback();
+                return true;
+            }),
+            1000,
+            0
+        )->shouldBeCalled();
+
+        $this->execute();
+    }
+}
+
+class TestPage implements Page
+{
+    public function title()
+    {
+        return 'Test Page';
+    }
+
+    public function get($query)
+    {
+        return json_encode($query);
+    }
+
+    public function post($form)
+    {
+        return json_encode($form);
     }
 }
 

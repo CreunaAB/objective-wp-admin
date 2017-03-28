@@ -4,19 +4,22 @@ namespace Creuna\ObjectiveWpAdmin;
 
 use add_action;
 use add_filter;
+use add_menu_page;
+use add_permastruct;
 use apply_filters;
+use get_option;
+use get_post;
+use get_post_meta;
+use get_posts;
+use register_post_type;
 use remove_menu_page;
 use remove_submenu_page;
-use register_post_type;
-use get_post_meta;
+use update_option;
 use update_post_meta;
-use get_post;
-use get_posts;
-use add_permastruct;
-use wp_register_script;
 use wp_enqueue_script;
-use wp_register_style;
 use wp_enqueue_style;
+use wp_register_script;
+use wp_register_style;
 
 class WordPressAdminAdapter implements AdminAdapter
 {
@@ -38,6 +41,11 @@ class WordPressAdminAdapter implements AdminAdapter
     public function removeMenuPage($id)
     {
         remove_menu_page($id);
+    }
+
+    public function addMenuPage($pageTitle, $menuTitle, $capability, $id, $callback)
+    {
+        add_menu_page($pageTitle, $menuTitle, $capability, $id, $callback);
     }
 
     public function removeSubMenuPage($id, $subId)
@@ -93,5 +101,15 @@ class WordPressAdminAdapter implements AdminAdapter
     public function enqueueStyle($handle)
     {
         wp_enqueue_style($handle);
+    }
+
+    public function getOption($key, $default = null)
+    {
+        return get_option($key, $default);
+    }
+
+    public function setOption($key, $value, $autoload = false)
+    {
+        return update_option($key, $value, $autoload);
     }
 }
