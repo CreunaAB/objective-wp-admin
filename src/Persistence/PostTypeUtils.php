@@ -3,11 +3,12 @@
 namespace Creuna\ObjectiveWpAdmin\Persistence;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
+use Creuna\ObjectiveWpAdmin\Persistence\Fields\RichTextField;
 use Creuna\ObjectiveWpAdmin\Persistence\Schema;
+use Creuna\ObjectiveWpAdmin\Slugify;
 use Creuna\ObjectiveWpAdmin\Util\DynamicObject;
 use DateTime;
 use WP_Post;
-use Creuna\ObjectiveWpAdmin\Slugify;
 
 class PostTypeUtils
 {
@@ -43,6 +44,8 @@ class PostTypeUtils
             $value = $adapter->getPostMeta($post->ID, $name, true);
             if ($value === '') {
                 $value = $field->defaults();
+            } elseif ($field instanceof RichTextField) {
+                $value = $adapter->applyFilters('the_content', $value);
             }
             $fields[$name] = $field->deserialize($value);
         }
