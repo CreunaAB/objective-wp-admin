@@ -63,11 +63,39 @@ class Repository
                 continue;
             }
 
-            $args['meta_query'][] = [
-                'key' => $field,
-                'value' => $value,
-                'compare' => $operator,
-            ];
+            if (in_array($value, [false, null]) && $operator === '=') {
+                $args['meta_query'][] = [
+                    'relation' => 'OR',
+                    [
+                        'key' => $field,
+                        'value' => $value,
+                        'compare' => '=',
+                    ],
+                    [
+                        'key' => $field,
+                        'compare' => 'NOT EXISTS',
+                    ],
+                ];
+            } elseif ($operator === '!=') {
+                $args['meta_query'][] = [
+                    'relation' => 'OR',
+                    [
+                        'key' => $field,
+                        'value' => $value,
+                        'compare' => '!=',
+                    ],
+                    [
+                        'key' => $field,
+                        'compare' => 'NOT EXISTS',
+                    ],
+                ];
+            } else {
+                $args['meta_query'][] = [
+                    'key' => $field,
+                    'value' => $value,
+                    'compare' => $operator,
+                ];
+            }
         }
 
         return array_map([$this, 'wrap'], $this->adapter->getPosts($args));
