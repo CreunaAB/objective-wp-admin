@@ -4,7 +4,6 @@ namespace Creuna\ObjectiveWpAdmin\Persistence;
 
 use Creuna\ObjectiveWpAdmin\AdminAdapter;
 use Creuna\ObjectiveWpAdmin\Persistence\Fields\RichTextField;
-use Creuna\ObjectiveWpAdmin\Persistence\Schema;
 use Creuna\ObjectiveWpAdmin\Slugify;
 use Creuna\ObjectiveWpAdmin\Util\DynamicObject;
 use DateTime;
@@ -36,7 +35,7 @@ class PostTypeUtils
         }
 
         if ($schema->supports('editor')) {
-            $fields['body'] = $adapter->applyFilters('the_content', $post->post_content);
+            $fields['body'] = self::applyRichTextFilters($adapter, $post, $post->post_content);
         }
 
         foreach ($schema->fields() as $field) {
@@ -45,11 +44,21 @@ class PostTypeUtils
             if ($value === '') {
                 $value = $field->defaults();
             } elseif ($field instanceof RichTextField) {
-                $value = $adapter->applyFilters('the_content', $value);
+                $value = self::applyRichTextFilters($adapter, $post, $value);
             }
             $fields[$name] = $field->deserialize($value);
         }
 
         return new DynamicObject($fields);
+    }
+
+    private static function applyRichTextFilters(AdminAdapter $adapter, WP_Post $p, $content)
+    {
+        // Apparently, to make embeds properly expand in the_content filter,
+        // the global post object must be set.
+        global $post;
+        $post = $p;
+
+        return $adapter->applyFilters('the_content', $content);
     }
 }
