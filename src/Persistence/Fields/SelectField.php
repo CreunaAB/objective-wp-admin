@@ -41,12 +41,15 @@ class SelectField implements Field
     public function options(Admin $admin)
     {
         if (isset($this->relatedPostType)) {
+            global $post;
+            $before = $post;
             $related = $admin->repository($this->relatedPostType)->all();
 
             foreach ($related as $object) {
                 $id = isset($object->slug) ? $object->slug : $object->id;
                 $this->options[$id] = $object->{$this->relatedPostTypeTitleField};
             }
+            $post = $before;
         }
         return $this->options;
     }
