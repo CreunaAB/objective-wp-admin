@@ -16,14 +16,17 @@ class PostTypeUtils
         return Slugify::slug(get_class($type));
     }
 
-    public static function parsePost(AdminAdapter $adapter, PostType $type, $post)
+    public static function parsePost(AdminAdapter $adapter, PostType $type, $postToParse)
     {
+        global $post;
+        $postBefore = $post;
+
         $fields = [
-            'id' => $post->ID,
-            'slug' => $post->post_name,
-            'createdAt' => new DateTime($post->post_date_gmt),
-            'updatedAt' => new DateTime($post->post_modified_gmt),
-            'status' => $post->post_status,
+            'id' => $postToParse->ID,
+            'slug' => $postToParse->post_name,
+            'createdAt' => new DateTime($postToParse->post_date_gmt),
+            'updatedAt' => new DateTime($postToParse->post_modified_gmt),
+            'status' => $postToParse->post_status,
             '_type' => get_class($type),
         ];
 
@@ -31,23 +34,25 @@ class PostTypeUtils
         $type->describe($schema);
 
         if ($schema->supports('title')) {
-            $fields['title'] = $post->post_title;
+            $fields['title'] = $postToParse->post_title;
         }
 
         if ($schema->supports('editor')) {
-            $fields['body'] = self::applyRichTextFilters($adapter, $post, $post->post_content);
+            $fields['body'] = self::applyRichTextFilters($adapter, $postToParse, $postToParse->post_content);
         }
 
         foreach ($schema->fields() as $field) {
             $name = $field->name();
-            $value = $adapter->getPostMeta($post->ID, $name, true);
+            $value = $adapter->getPostMeta($postToParse->ID, $name, true);
             if ($value === '') {
                 $value = $field->defaults();
             } elseif ($field instanceof RichTextField) {
-                $value = self::applyRichTextFilters($adapter, $post, $value);
+                $value = self::applyRichTextFilters($adapter, $postToParse, $value);
             }
             $fields[$name] = $field->deserialize($value);
         }
+
+        $post = $postBefore;
 
         return new DynamicObject($fields);
     }
