@@ -84,7 +84,7 @@ class Editor
             'end_container_on_empty_block' => true,
             'wpeditimage_disable_captions' => false,
             'wpeditimage_html5_captions' => false,
-            'plugins' => 'charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wplink,wpdialogs,wptextpattern,wpview,wpembed',
+            'plugins' => 'charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wplink,wpdialogs,wptextpattern,wpview',
             'wp_lang_attr' => 'en-US',
             // 'content_css' => 'wp/wp-includes/css/dashicons.min.css?ver=4.5,wp/wp-includes/js/tinymce/skins/wordpress/wp-content.css?ver=4.5',
             // 'selector' => '#content',
