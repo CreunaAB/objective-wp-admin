@@ -55,6 +55,17 @@ class Repository
         foreach ($where as $predicate) {
             extract($predicate);
 
+            if ($field === 'id') {
+                if ($operator === 'IN') {
+                    $args['post__in'] = $value;
+                } elseif ($operator === '=') {
+                    $args['post'] = $value;
+                } else {
+                    throw new \Exception('The ID can only be filtered with the "=" or "IN" operators');
+                }
+                continue;
+            }
+
             if ($field === 'slug') {
                 if ($operator !== '=') {
                     throw new \Exception('The slug can only be filtered with the "=" operator');
